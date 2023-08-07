@@ -28,7 +28,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-      - script: echo "Building..."
+      - script: docker build -t $(imageRepository):$(tag) -f $(dockerfilePath) .
         displayName: Build Step
 - stage: Push
   displayName: Push stage
