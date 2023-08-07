@@ -4,11 +4,11 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
+WORKDIR /
 COPY ["EXOPEK_Backend/EXOPEK_Backend.csproj", "EXOPEK_Backend/"]
 RUN dotnet restore "EXOPEK_Backend/EXOPEK_Backend.csproj"
 COPY . .
-WORKDIR "/src/EXOPEK_Backend"
+WORKDIR "/EXOPEK_Backend"
 RUN dotnet build "EXOPEK_Backend.csproj" -c Release -o /app/build
 
 FROM build AS publish
