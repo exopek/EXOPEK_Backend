@@ -45,9 +45,11 @@ public static class ServiceExtensions
                 !Int32.TryParse(configuration["POSTGRES_PORT"], out int port)
             )
             {
+                Console.WriteLine("Using connection string from appsettings.json");
                 builder.ConnectionString = configuration.GetConnectionString(
                     "PostgreSqlConnection"
                 );
+                Console.WriteLine(builder.ConnectionString);
             }
             else
             {
@@ -63,7 +65,9 @@ public static class ServiceExtensions
                     builder.TrustServerCertificate = bool.Parse(
                         configuration["POSTGRES_TRUST_SERVER_CERTIFICATE"]
                     );
-
+                
+                Console.WriteLine("Using connection string from environment variables");
+                Console.WriteLine(builder.ConnectionString);
                 builder.Port = port;
             }
 
