@@ -1,3 +1,4 @@
+using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Contracts.Repository;
 using EXOPEK_Backend.Entities;
 
@@ -7,7 +8,6 @@ public class RepositoryManager : IRepositoryManager
 {
     private readonly RepositoryContext _repositoryContext;
     private readonly Lazy<IWorkoutRepository> _workoutRepository;
-    
     public RepositoryManager(RepositoryContext repositoryContext)
     {
         _repositoryContext = repositoryContext;

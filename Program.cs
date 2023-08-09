@@ -1,3 +1,4 @@
+using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,6 +18,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureUseCaseManager();
+builder.Services.AddAutoMapper(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -29,7 +32,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    var logger = app.Services.GetRequiredService<ILoggerManager>();
+    app.ConfigureExceptionHandler(logger);
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
