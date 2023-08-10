@@ -14,8 +14,12 @@ public class WorkoutRepository : RepositoryBase<Workout>, IWorkoutRepository
     
     public async Task<IEnumerable<Workout>> GetAllWorkoutsAsync(bool trackChanges) =>
         await FindAll(trackChanges)
-            .Include(w => w.Images)
-            .Include(w => w.Videos)
             .OrderBy(c => c.Name)
             .ToListAsync();
+    
+    public async Task<Workout> GetWorkoutAsync(Guid id, bool trackChanges) =>
+        await FindByCondition(c => c.Id.Equals(id), trackChanges)
+            .Include(w => w.WorkoutExercises)
+            .ThenInclude(e => e.Exercise)
+            .SingleOrDefaultAsync();
 }

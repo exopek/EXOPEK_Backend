@@ -6,4 +6,5 @@ namespace EXOPEK_Backend.Contracts.Application;
 public interface IWorkoutUseCase
 {
     public Task<OperationListResult<Workout>> GetWorkoutsAsync();
+    public Task<OperationSingleResult<Workout>> GetWorkoutAsync(Guid id);
 }

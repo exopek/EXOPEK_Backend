@@ -1,6 +1,6 @@
 namespace EXOPEK_Backend.Application.Dtos.Responses;
 
-public class WorkoutsResponse
+public class WorkoutSingleResponse
 {
     public string Id { get; set; }
     
@@ -9,6 +9,8 @@ public class WorkoutsResponse
     public string Description { get; set; }
     
     public string PreviewImage { get; set; }
-
-    public string Hint { get; set; } = "Ich bin das Dto";
+    
+    public string Hint { get; set; } = "Ich bin das SingleDto";
+    
+    public ICollection<ExerciseResponse> Exercises { get; set; } = new List<ExerciseResponse>();
 }

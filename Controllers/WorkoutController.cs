@@ -38,4 +38,20 @@ public class WorkoutController : ControllerBase
         
         return Ok(workoutsDto);
     }
+    
+    [HttpGet("byId")]
+    public async Task<IActionResult> GetWorkout(
+        [FromQuery] Guid id)
+    {
+        var workout = await _useCaseManager.Workout.GetWorkoutAsync(id);
+        
+        if (!workout.Success)
+        {
+            return NotFound(workout.Errors);
+        }
+        
+        var workoutDto = _mapper.Map<WorkoutSingleResponse>(workout.Item);
+
+        return Ok(workoutDto);
+    }
 }

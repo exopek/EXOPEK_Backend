@@ -1,19 +1,23 @@
+using EXOPEK_Backend.Entities.Configuration;
 using EXOPEK_Backend.Entities.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EXOPEK_Backend.Entities;
 
-public class RepositoryContext : DbContext
+public class RepositoryContext : IdentityDbContext<User>
 {
     public RepositoryContext(DbContextOptions options)
         : base(options)
     {
     }
     // Für initalen Seed
-    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new WorkoutConfiguration());
-    }*/
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+    }
     
     public DbSet<Workout> Workouts { get; set; }
 }

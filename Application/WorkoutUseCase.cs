@@ -32,4 +32,24 @@ public class WorkoutUseCase : IWorkoutUseCase
             Success = true
         };
     }
+    
+    public async Task<OperationSingleResult<Workout>> GetWorkoutAsync(Guid id)
+    {
+        var workout = await _repository.Workout.GetWorkoutAsync(id, trackChanges: false);
+        
+        if (workout is null)
+        {
+            return new OperationSingleResult<Workout>
+            {
+                Success = false,
+                Errors = new List<string> {"Workout not found"}
+            };
+        }
+
+        return new OperationSingleResult<Workout>
+        {
+            Item = workout,
+            Success = true
+        };
+    }
 }

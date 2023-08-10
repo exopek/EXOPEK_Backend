@@ -4,18 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EXOPEK_Backend.Entities.Configuration;
 
-public class WorkoutConfiguration : IEntityTypeConfiguration<Workout>
+public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
 {
-    public void Configure(EntityTypeBuilder<Workout> builder)
+    public void Configure(EntityTypeBuilder<Exercise> builder)
     {
         builder.HasKey(c => c.Id);
-
-        builder
-            .HasMany(l => l.Images);
-
+        
         builder
             .HasMany(v => v.WorkoutExercises)
-            .WithOne(wv => wv.Workout);
+            .WithOne(wv => wv.Exercise);
 
 
     }

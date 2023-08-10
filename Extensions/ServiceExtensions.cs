@@ -1,9 +1,14 @@
+using System.Text;
 using EXOPEK_Backend.Application;
 using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Contracts.Repository;
 using EXOPEK_Backend.Entities;
+using EXOPEK_Backend.Entities.Models;
 using EXOPEK_Backend.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 
 namespace EXOPEK_Backend.Extensions;
@@ -26,6 +31,59 @@ public static class ServiceExtensions
     
     public static void ConfigureLoggerService(this IServiceCollection services) =>
         services.AddSingleton<ILoggerManager, LoggerManager>();
+    
+    public static void ConfigureIdentity(this IServiceCollection services)
+    {
+        var builder = services.AddIdentity<User, IdentityRole>(o =>
+            {
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 10;
+                o.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders();
+    }
+    
+    public static void ConfigureJwt(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
+    {
+        var jwtSettings = new JwtSettings();
+        configuration.Bind("JwtSettings", jwtSettings);
+
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            RequireExpirationTime = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings.ValidIssuer,
+            ValidAudience = jwtSettings.ValidAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSettings.AccessTokenSecret)
+            )
+        };
+
+        services.AddSingleton(tokenValidationParameters);
+
+        services
+            .AddAuthentication(config =>
+            {
+                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(config =>
+            {
+                config.SaveToken = true; // needed for refresh token
+                config.TokenValidationParameters = tokenValidationParameters;
+            });
+    }
     
     public static void ConfigureSqlContext(
             this IServiceCollection services,

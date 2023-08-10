@@ -12,8 +12,11 @@ LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),
     "/nlog.config"));
 
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
+/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));*/
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJwt(builder.Configuration);
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddControllers();
