@@ -5,10 +5,18 @@ public class WorkoutsResponse
     public string Id { get; set; }
     
     public string Name { get; set; }
-    
-    public string Description { get; set; }
-    
+
     public string PreviewImage { get; set; }
 
     public string Hint { get; set; } = "Ich bin das Dto";
+
+    public string Difficulty { get; set; }
+    
+    public string Category { get; set; }
+    
+    public string Hashtags { get; set; }
+
+    public double Duration { get; set; }
+    
+    
 }

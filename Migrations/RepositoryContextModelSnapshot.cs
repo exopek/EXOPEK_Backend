@@ -28,10 +28,23 @@ namespace EXOPEK_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PreviewImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -138,15 +151,37 @@ namespace EXOPEK_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Duration")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Hashtags")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MuscleImageUrl")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("previewImage")
+                    b.Property<string>("PreviewImageUrl")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("VideoUrl")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -160,8 +195,23 @@ namespace EXOPEK_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int?>("Duration")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("ExerciseId")
                         .HasColumnType("uuid");
+
+                    b.Property<int?>("Reps")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StageOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StageRound")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StageType")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("WorkoutId")
                         .HasColumnType("uuid");
@@ -203,15 +253,15 @@ namespace EXOPEK_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8336f84c-b927-4705-b1db-28dbc447f1af",
-                            ConcurrencyStamp = "742f6fab-3660-4eeb-805c-05cbb42f24e2",
+                            Id = "68ba2a4b-f97a-48a8-8e5b-0b0253a5718d",
+                            ConcurrencyStamp = "ca04fcec-6d2a-4810-81e3-c1c5eb954dce",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "03cd2142-821b-4c41-8700-376df2bb2456",
-                            ConcurrencyStamp = "09a9df18-1a7d-43df-aeda-51329f8b749d",
+                            Id = "b378e8f9-529f-4863-b5b1-f574f66a203d",
+                            ConcurrencyStamp = "bf6fe9d8-a9f1-41fa-aeb5-aeda11c8204c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

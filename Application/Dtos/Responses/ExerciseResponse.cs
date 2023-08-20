@@ -9,4 +9,13 @@ public class ExerciseResponse
     public string Description { get; set; }
     
     public string VideoUrl { get; set; }
+    
+    public string PreviewImage { get; set; }
+    
+    public string CreatedAt { get; set; }
+    
+    public string Difficulty { get; set; }
+    
+    public string Category { get; set; }
+    
 }

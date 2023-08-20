@@ -37,4 +37,20 @@ public class UserController : ControllerBase
         return Ok(result);
     }
     
+    [HttpPost("login")]
+    public async Task<IActionResult> Authenticate([FromBody] UserAuthenticationRequest 
+        user)
+    {
+        
+        var userResult = await _useCaseManager.User.ValidateUserAsync(user);
+        if (!userResult.Success)
+            return Unauthorized();
+        var token = await _useCaseManager.User.GenerateJwtTokenAsync();
+
+        if (!token.Success)
+            return Unauthorized();
+        
+        return Ok(new { Token = token.Item });
+    }
+    
 }
