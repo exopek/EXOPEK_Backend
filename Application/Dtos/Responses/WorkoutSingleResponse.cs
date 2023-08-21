@@ -8,7 +8,7 @@ public class WorkoutSingleResponse
     
     public string Description { get; set; }
     
-    public string PreviewImage { get; set; }
+    public string PreviewImageUrl { get; set; }
     
     public string CreatedAt { get; set; }
     

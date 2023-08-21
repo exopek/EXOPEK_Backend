@@ -6,7 +6,7 @@ public class WorkoutsResponse
     
     public string Name { get; set; }
 
-    public string PreviewImage { get; set; }
+    public string PreviewImageUrl { get; set; }
 
     public string Hint { get; set; } = "Ich bin das Dto";
 
