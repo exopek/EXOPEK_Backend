@@ -1,3 +1,5 @@
+using EXOPEK_Backend.Entities;
+
 namespace EXOPEK_Backend.Application.Dtos.Responses;
 
 public class ExerciseResponse
@@ -17,5 +19,15 @@ public class ExerciseResponse
     public string Difficulty { get; set; }
     
     public string Category { get; set; }
+    
+    public int Duration { get; set; }
+    
+    public int Reps { get; set; }
+    
+    public int StageOrder { get; set; }
+    
+    public int StageRound { get; set; }
+    
+    public StageType StageType { get; set; }
     
 }

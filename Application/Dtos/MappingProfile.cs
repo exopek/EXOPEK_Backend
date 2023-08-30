@@ -11,10 +11,11 @@ public class MappingProfile : Profile
     {
         CreateMap <Workout, WorkoutsResponse>();
         CreateMap<Exercise, ExerciseResponse>();
-        CreateMap <Workout, WorkoutSingleResponse>()
-            .ForMember(dest => 
+        CreateMap<Workout, WorkoutSingleResponse>()
+            .ForMember(dest =>
                 dest.Exercises, opt =>
                 opt.MapFrom(src => src.WorkoutExercises.Select(we => we.Exercise)));
+            
         CreateMap<UserRegisterRequest, User>();
     }
 

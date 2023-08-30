@@ -25,6 +25,5 @@ public class WorkoutSingleResponse
     public double Duration { get; set; }
     
     public string Hint { get; set; } = "Ich bin das SingleDto";
-    
     public ICollection<ExerciseResponse> Exercises { get; set; } = new List<ExerciseResponse>();
 }
