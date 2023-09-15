@@ -4,29 +4,22 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EXOPEK_Backend.Entities.Configuration;
 
-public class WorkoutConfiguration : IEntityTypeConfiguration<Workout>
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<Workout> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.HasKey(c => c.Id);
 
         builder
-            .HasMany(l => l.Images);
-
-        builder
-            .HasMany(v => v.WorkoutExercises)
-            .WithOne(wv => wv.Workout);
-
-        builder
             .HasMany(v => v.WorkoutUserComments)
-            .WithOne(wv => wv.Workout);
+            .WithOne(wv => wv.User);
         
         builder
             .HasMany(v => v.WorkoutUserLikes)
-            .WithOne(wv => wv.Workout);
+            .WithOne(wv => wv.User);
         
         builder
             .HasMany(v => v.WorkoutUserCompletes)
-            .WithOne(wv => wv.Workout);
+            .WithOne(wv => wv.User);
     }
 }

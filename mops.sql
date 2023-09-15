@@ -1,52 +1,33 @@
 ﻿START TRANSACTION;
 
 DELETE FROM "AspNetRoles"
-WHERE "Id" = '03cd2142-821b-4c41-8700-376df2bb2456';
+WHERE "Id" = '1368b63f-9a1e-489b-803e-9dddca49c599';
 
 DELETE FROM "AspNetRoles"
-WHERE "Id" = '8336f84c-b927-4705-b1db-28dbc447f1af';
+WHERE "Id" = '237b64f1-0ccd-486b-ae8c-c2c17e801847';
 
-ALTER TABLE "Workouts" RENAME COLUMN "previewImage" TO "PreviewImageUrl";
-
-ALTER TABLE "Workouts" ADD "Category" integer NOT NULL DEFAULT 0;
-
-ALTER TABLE "Workouts" ADD "CreatedAt" timestamp with time zone NULL;
-
-ALTER TABLE "Workouts" ADD "Difficulty" integer NOT NULL DEFAULT 0;
-
-ALTER TABLE "Workouts" ADD "Duration" double precision NOT NULL DEFAULT 0.0;
-
-ALTER TABLE "Workouts" ADD "Hashtags" text NOT NULL DEFAULT '';
-
-ALTER TABLE "Workouts" ADD "MuscleImageUrl" text NULL;
-
-ALTER TABLE "Workouts" ADD "VideoUrl" text NULL;
-
-ALTER TABLE "WorkoutExercise" ADD "Duration" integer NULL;
-
-ALTER TABLE "WorkoutExercise" ADD "Reps" integer NULL;
-
-ALTER TABLE "WorkoutExercise" ADD "StageOrder" integer NOT NULL DEFAULT 0;
-
-ALTER TABLE "WorkoutExercise" ADD "StageRound" integer NOT NULL DEFAULT 0;
-
-ALTER TABLE "WorkoutExercise" ADD "StageType" integer NOT NULL DEFAULT 0;
-
-ALTER TABLE "Exercise" ADD "Category" integer NOT NULL DEFAULT 0;
-
-ALTER TABLE "Exercise" ADD "CreatedAt" timestamp with time zone NULL;
-
-ALTER TABLE "Exercise" ADD "Difficulty" integer NOT NULL DEFAULT 0;
-
-ALTER TABLE "Exercise" ADD "PreviewImageUrl" text NOT NULL DEFAULT '';
+CREATE TABLE "WorkoutUserLikes" (
+    "Id" uuid NOT NULL,
+    "WorkoutId" uuid NOT NULL,
+    "UserId" text NOT NULL,
+    "IsLiked" boolean NOT NULL,
+    "CreatedAt" timestamp with time zone NULL,
+    CONSTRAINT "PK_WorkoutUserLikes" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_WorkoutUserLikes_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_WorkoutUserLikes_Workouts_WorkoutId" FOREIGN KEY ("WorkoutId") REFERENCES "Workouts" ("Id") ON DELETE CASCADE
+);
 
 INSERT INTO "AspNetRoles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
-VALUES ('68ba2a4b-f97a-48a8-8e5b-0b0253a5718d', 'ca04fcec-6d2a-4810-81e3-c1c5eb954dce', 'User', 'USER');
+VALUES ('82e66898-617f-435c-8d4e-80cc7564754c', '83f99081-4953-43f7-85e6-6fab5a687b72', 'User', 'USER');
 INSERT INTO "AspNetRoles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
-VALUES ('b378e8f9-529f-4863-b5b1-f574f66a203d', 'bf6fe9d8-a9f1-41fa-aeb5-aeda11c8204c', 'Administrator', 'ADMINISTRATOR');
+VALUES ('86c36f83-a02c-4f2c-849f-58d6fcc2ce9d', '9d4a9ddf-346e-4be7-95b8-340dbc1e1c2e', 'Administrator', 'ADMINISTRATOR');
+
+CREATE INDEX "IX_WorkoutUserLikes_UserId" ON "WorkoutUserLikes" ("UserId");
+
+CREATE INDEX "IX_WorkoutUserLikes_WorkoutId" ON "WorkoutUserLikes" ("WorkoutId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20230820111618_2023-08-20-js', '7.0.9');
+VALUES ('20230915090813_2023-09-15-2', '7.0.9');
 
 COMMIT;
 

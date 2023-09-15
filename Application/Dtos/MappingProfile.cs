@@ -11,6 +11,9 @@ public class MappingProfile : Profile
     {
         CreateMap <Workout, WorkoutsResponse>();
         CreateMap<Exercise, ExerciseResponse>();
+        CreateMap<WorkoutUserComments, WorkoutUserCommentsResponse>();
+        CreateMap<WorkoutUserLikes, WorkoutUserLikesResponse>();
+        CreateMap<WorkoutUserCompletes, WorkoutUserCompletesResponse>();
         CreateMap<Workout, WorkoutSingleResponse>()
             .ForMember(dest =>
                 dest.Exercises, opt =>

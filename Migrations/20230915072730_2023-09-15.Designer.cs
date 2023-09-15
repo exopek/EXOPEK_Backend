@@ -3,6 +3,7 @@ using System;
 using EXOPEK_Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EXOPEK_Backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20230915072730_2023-09-15")]
+    partial class _20230915
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,7 +247,10 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UserId1")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -253,67 +259,11 @@ namespace EXOPEK_Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.HasIndex("WorkoutId");
 
                     b.ToTable("WorkoutUserComments");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserCompletes", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("WorkoutId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("WorkoutUserCompletes");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserLikes", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsLiked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("WorkoutId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("WorkoutUserLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -344,15 +294,15 @@ namespace EXOPEK_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5b97f80e-c096-4368-93b7-6ce3f68030e4",
-                            ConcurrencyStamp = "5c7d4e4e-059b-4ed2-9d27-a9d4e6acf512",
+                            Id = "2cba142e-ebae-4631-9be7-064a999c778a",
+                            ConcurrencyStamp = "68d2b4d6-36a2-4586-adce-dcdd4f2ebed2",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b2c9cae7-5948-4d89-a21e-8421595d8065",
-                            ConcurrencyStamp = "703a76c8-5087-4826-baf5-fe91a255ba61",
+                            Id = "630a322e-c4f4-4a27-a685-904bea6e2e8d",
+                            ConcurrencyStamp = "4d9c4049-23fa-45fa-b1fb-f9b024917add",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -494,50 +444,12 @@ namespace EXOPEK_Backend.Migrations
                 {
                     b.HasOne("EXOPEK_Backend.Entities.Models.User", "User")
                         .WithMany("WorkoutUserComments")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EXOPEK_Backend.Entities.Models.Workout", "Workout")
                         .WithMany("WorkoutUserComments")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("Workout");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserCompletes", b =>
-                {
-                    b.HasOne("EXOPEK_Backend.Entities.Models.User", "User")
-                        .WithMany("WorkoutUserCompletes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EXOPEK_Backend.Entities.Models.Workout", "Workout")
-                        .WithMany("WorkoutUserCompletes")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("Workout");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserLikes", b =>
-                {
-                    b.HasOne("EXOPEK_Backend.Entities.Models.User", "User")
-                        .WithMany("WorkoutUserLikes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EXOPEK_Backend.Entities.Models.Workout", "Workout")
-                        .WithMany("WorkoutUserLikes")
                         .HasForeignKey("WorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -606,10 +518,6 @@ namespace EXOPEK_Backend.Migrations
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.User", b =>
                 {
                     b.Navigation("WorkoutUserComments");
-
-                    b.Navigation("WorkoutUserCompletes");
-
-                    b.Navigation("WorkoutUserLikes");
                 });
 
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.Workout", b =>
@@ -619,10 +527,6 @@ namespace EXOPEK_Backend.Migrations
                     b.Navigation("WorkoutExercises");
 
                     b.Navigation("WorkoutUserComments");
-
-                    b.Navigation("WorkoutUserCompletes");
-
-                    b.Navigation("WorkoutUserLikes");
                 });
 #pragma warning restore 612, 618
         }

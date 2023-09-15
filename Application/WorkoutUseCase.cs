@@ -37,7 +37,7 @@ public class WorkoutUseCase : IWorkoutUseCase
     {
         var workout = await _repository.Workout.GetWorkoutAsync(id, trackChanges: false);
         
-        if (workout is null)
+        if (workout.Equals(null))
         {
             return new OperationSingleResult<Workout>
             {

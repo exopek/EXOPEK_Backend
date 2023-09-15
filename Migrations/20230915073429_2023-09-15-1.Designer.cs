@@ -3,6 +3,7 @@ using System;
 using EXOPEK_Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EXOPEK_Backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20230915073429_2023-09-15-1")]
+    partial class _202309151
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,62 +263,6 @@ namespace EXOPEK_Backend.Migrations
                     b.ToTable("WorkoutUserComments");
                 });
 
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserCompletes", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("WorkoutId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("WorkoutUserCompletes");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserLikes", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsLiked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("WorkoutId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("WorkoutUserLikes");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -344,15 +291,15 @@ namespace EXOPEK_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5b97f80e-c096-4368-93b7-6ce3f68030e4",
-                            ConcurrencyStamp = "5c7d4e4e-059b-4ed2-9d27-a9d4e6acf512",
+                            Id = "237b64f1-0ccd-486b-ae8c-c2c17e801847",
+                            ConcurrencyStamp = "fdca2e3e-8737-4a75-9c62-c0734747edc8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b2c9cae7-5948-4d89-a21e-8421595d8065",
-                            ConcurrencyStamp = "703a76c8-5087-4826-baf5-fe91a255ba61",
+                            Id = "1368b63f-9a1e-489b-803e-9dddca49c599",
+                            ConcurrencyStamp = "1e60d535-2518-4228-aea1-b07a82a4e1c7",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -509,44 +456,6 @@ namespace EXOPEK_Backend.Migrations
                     b.Navigation("Workout");
                 });
 
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserCompletes", b =>
-                {
-                    b.HasOne("EXOPEK_Backend.Entities.Models.User", "User")
-                        .WithMany("WorkoutUserCompletes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EXOPEK_Backend.Entities.Models.Workout", "Workout")
-                        .WithMany("WorkoutUserCompletes")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("Workout");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.WorkoutUserLikes", b =>
-                {
-                    b.HasOne("EXOPEK_Backend.Entities.Models.User", "User")
-                        .WithMany("WorkoutUserLikes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EXOPEK_Backend.Entities.Models.Workout", "Workout")
-                        .WithMany("WorkoutUserLikes")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("Workout");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -606,10 +515,6 @@ namespace EXOPEK_Backend.Migrations
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.User", b =>
                 {
                     b.Navigation("WorkoutUserComments");
-
-                    b.Navigation("WorkoutUserCompletes");
-
-                    b.Navigation("WorkoutUserLikes");
                 });
 
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.Workout", b =>
@@ -619,10 +524,6 @@ namespace EXOPEK_Backend.Migrations
                     b.Navigation("WorkoutExercises");
 
                     b.Navigation("WorkoutUserComments");
-
-                    b.Navigation("WorkoutUserCompletes");
-
-                    b.Navigation("WorkoutUserLikes");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,4 +26,14 @@ public class WorkoutSingleResponse
     
     public string Hint { get; set; } = "Ich bin das SingleDto";
     public ICollection<ExerciseResponse> Exercises { get; set; } = new List<ExerciseResponse>();
+    
+    public int Likes { get; set; }
+    
+    public int Comments { get; set; }
+    
+    public ICollection<WorkoutUserCommentsResponse> WorkoutUserComments { get; set; } = new List<WorkoutUserCommentsResponse>();
+    
+    public ICollection<WorkoutUserLikesResponse> WorkoutUserLikes { get; set; } = new List<WorkoutUserLikesResponse>();
+    
+    public ICollection<WorkoutUserCompletesResponse> WorkoutUserCompletes { get; set; } = new List<WorkoutUserCompletesResponse>();
 }
