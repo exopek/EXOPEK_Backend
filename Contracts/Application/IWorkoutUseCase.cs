@@ -1,3 +1,4 @@
+using EXOPEK_Backend.Application.Dtos.Requests;
 using EXOPEK_Backend.Entities.Application;
 using EXOPEK_Backend.Entities.Models;
 
@@ -7,4 +8,5 @@ public interface IWorkoutUseCase
 {
     public Task<OperationListResult<Workout>> GetWorkoutsAsync();
     public Task<OperationSingleResult<Workout>> GetWorkoutAsync(Guid id);
+    public Task<OperationSingleResult<WorkoutUserCompletes>> CreateWorkoutUserCompletesAsync(WorkoutCompleteRequest request);
 }

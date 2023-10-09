@@ -1,4 +1,5 @@
 using AutoMapper;
+using EXOPEK_Backend.Application.Dtos.Requests;
 using EXOPEK_Backend.Application.Dtos.Responses;
 using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Contracts.Repository;
@@ -53,5 +54,21 @@ public class WorkoutController : ControllerBase
         var workoutDto = _mapper.Map<WorkoutSingleResponse>(workout.Item);
 
         return Ok(workoutDto);
+    }
+    
+    [HttpPost("complete")]
+    public async Task<IActionResult> CreateWorkoutUserCompletes(
+        [FromBody] WorkoutCompleteRequest request)
+    {
+        var workoutUserCompletes = await _useCaseManager.Workout.CreateWorkoutUserCompletesAsync(request);
+        
+        if (!workoutUserCompletes.Success)
+        {
+            return BadRequest(workoutUserCompletes.Errors);
+        }
+        
+        var workoutUserCompletesDto = _mapper.Map<WorkoutUserCompletesResponse>(workoutUserCompletes.Item);
+
+        return Ok(workoutUserCompletesDto);
     }
 }

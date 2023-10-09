@@ -24,7 +24,7 @@ class UseCaseManager : IUseCaseManager
     {
         //_repositoryManager = repositoryManager;
         _workoutUseCase = new Lazy<IWorkoutUseCase>(
-            () => new WorkoutUseCase(repositoryManager));
+            () => new WorkoutUseCase(repositoryManager, userManager));
         _userUseCase = new Lazy<IUserUseCase>(
             () => new UserUseCase(logger, userManager, mapper, configuration));
     }
