@@ -20,6 +20,7 @@ public class RepositoryContext : IdentityDbContext<User>
     }
     
     public DbSet<Workout> Workouts { get; set; }
+    public DbSet<Plan> Plans { get; set; }
 }
 
 

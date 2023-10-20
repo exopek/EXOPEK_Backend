@@ -11,4 +11,6 @@ public class User : IdentityUser
     public ICollection<WorkoutUserLikes> WorkoutUserLikes { get; set; }
     
     public ICollection<WorkoutUserCompletes> WorkoutUserCompletes { get; set; }
+
+    public ICollection<PlanUserStatus> PlanUserStatus { get; set; }
 }

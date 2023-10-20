@@ -11,10 +11,25 @@ public class MappingProfile : Profile
     {
         CreateMap <Workout, WorkoutsResponse>();
         CreateMap<Exercise, ExerciseResponse>();
+        CreateMap<Plan, PlanResponse>();
         CreateMap<WorkoutUserComments, WorkoutUserCommentsResponse>();
         CreateMap<WorkoutUserLikes, WorkoutUserLikesResponse>();
         CreateMap<WorkoutUserCompletes, WorkoutUserCompletesResponse>();
+        CreateMap<PlanUserStatus, PlanUserStatusResponse>();
+        CreateMap<Plan, PlanSingleResponse>()
+            /*.ForMember(dest => 
+                dest.IsLiked, opt => 
+                opt.MapFrom(src => src.WorkoutUserLikes.Any(wul => wul.User.Id == src.Id.ToString())))*/
+            .ForMember(dest =>
+                dest.Workouts, opt =>
+                opt.MapFrom(src => src.PlanWorkouts))
+            .ForMember(dest =>  
+                dest.PlanStatus, opt =>
+                opt.MapFrom(src => src.PlanUserStatus));
         CreateMap<Workout, WorkoutSingleResponse>()
+            /*.ForMember(dest => 
+                dest.IsLiked, opt => 
+                opt.MapFrom(src => src.WorkoutUserLikes.Any(wul => wul.User.Id == src.Id.ToString())))*/
             .ForMember(dest =>
                 dest.Exercises, opt =>
                 opt.MapFrom(src => src.WorkoutExercises));
@@ -55,6 +70,20 @@ public class MappingProfile : Profile
             .ForMember(dest =>
                 dest.Difficulty , opt =>
                 opt.MapFrom(src => src.Exercise.Difficulty))
+            ;
+        CreateMap<PlanWorkout ,WorkoutsResponse>()
+            .ForMember(dest =>
+                dest.Id , opt =>
+                opt.MapFrom(src => src.Workout.Id))
+            .ForMember(dest =>
+                dest.Name , opt =>
+                opt.MapFrom(src => src.Workout.Name))
+            .ForMember(dest =>
+                dest.PhaseType , opt =>
+                opt.MapFrom(src => src.PhaseType))
+            .ForMember(dest =>
+                dest.PreviewImageUrl , opt =>
+                opt.MapFrom(src => src.Workout.PreviewImageUrl))
             ;
 
         CreateMap<UserRegisterRequest, User>();

@@ -28,5 +28,9 @@ public class WorkoutConfiguration : IEntityTypeConfiguration<Workout>
         builder
             .HasMany(v => v.WorkoutUserCompletes)
             .WithOne(wv => wv.Workout);
+        
+        builder
+            .HasMany(v => v.PlanWorkouts)
+            .WithOne(wv => wv.Workout);
     }
 }

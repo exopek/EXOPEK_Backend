@@ -9,6 +9,8 @@ public class RepositoryManager : IRepositoryManager
     private readonly RepositoryContext _repositoryContext;
     private readonly Lazy<IWorkoutRepository> _workoutRepository;
     private readonly Lazy<IWorkoutUserCompletesRepository> _workoutUserCompletesRepository;
+    private readonly Lazy<IWorkoutUserLikesRepository> _workoutUserLikesRepository;
+    private readonly Lazy<IPlanRepository> _planRepository;
     public RepositoryManager(RepositoryContext repositoryContext)
     {
         _repositoryContext = repositoryContext;
@@ -16,11 +18,19 @@ public class RepositoryManager : IRepositoryManager
             () => new WorkoutRepository(_repositoryContext));
         _workoutUserCompletesRepository = new Lazy<IWorkoutUserCompletesRepository>(
             () => new WorkoutUserCompletesRepository(_repositoryContext));
+        _workoutUserLikesRepository = new Lazy<IWorkoutUserLikesRepository>(
+            () => new WorkoutUserLikesRepository(_repositoryContext));
+        _planRepository = new Lazy<IPlanRepository>(
+            () => new PlanRepository(_repositoryContext));
     }
     
     public IWorkoutRepository Workout => _workoutRepository.Value;
     
     public IWorkoutUserCompletesRepository WorkoutUserCompletes => _workoutUserCompletesRepository.Value;
+    
+    public IWorkoutUserLikesRepository WorkoutUserLikes => _workoutUserLikesRepository.Value;
+    
+    public IPlanRepository Plan => _planRepository.Value;
     
     public void Save() => _repositoryContext.SaveChanges();
     

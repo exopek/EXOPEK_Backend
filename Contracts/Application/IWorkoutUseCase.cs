@@ -9,4 +9,5 @@ public interface IWorkoutUseCase
     public Task<OperationListResult<Workout>> GetWorkoutsAsync();
     public Task<OperationSingleResult<Workout>> GetWorkoutAsync(Guid id);
     public Task<OperationSingleResult<WorkoutUserCompletes>> CreateWorkoutUserCompletesAsync(WorkoutCompleteRequest request);
+    public Task<OperationSingleResult<bool>> CreateWorkoutUserLikesAsync(WorkoutLikeRequest request);
 }

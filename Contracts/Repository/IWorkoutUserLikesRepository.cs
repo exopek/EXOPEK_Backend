@@ -5,5 +5,5 @@ namespace EXOPEK_Backend.Contracts.Repository;
 
 public interface IWorkoutUserLikesRepository
 {
-    public OperationSingleResult<WorkoutUserLikes> CreateWorkoutUserLike(WorkoutUserLikes workoutUserLike, bool trackChanges);
+    public void CreateWorkoutUserLike(WorkoutUserLikes workoutUserLike, bool trackChanges);
 }

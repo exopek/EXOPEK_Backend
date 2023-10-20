@@ -33,5 +33,5 @@ public class Workout
     
     public ICollection<WorkoutUserCompletes> WorkoutUserCompletes { get; set; } = new List<WorkoutUserCompletes>();
 
-
+    public ICollection<PlanWorkout> PlanWorkouts { get; set; } = new List<PlanWorkout>();
 }

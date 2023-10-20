@@ -97,4 +97,35 @@ public class WorkoutUseCase : IWorkoutUseCase
             Success = true
         };
     }
+    
+    public async Task<OperationSingleResult<bool>> CreateWorkoutUserLikesAsync(WorkoutLikeRequest request)
+    {
+        var User = await _userManager.FindByIdAsync(request.UserId.ToString());
+        
+        if (User.Equals(null))
+        {
+            return new OperationSingleResult<bool>
+            {
+                Success = false,
+                Errors = new List<string> {"User not found"}
+            };
+        }
+        
+        var workoutUserLikes = new WorkoutUserLikes
+        {
+            WorkoutId = request.WorkoutId,
+            CreatedAt = DateTime.UtcNow,
+            User = User,
+            IsLiked = true
+        };
+        
+        _repository.WorkoutUserLikes.CreateWorkoutUserLike(workoutUserLikes, trackChanges: false);
+
+        await _repository.SaveAsync();
+
+        return new OperationSingleResult<bool>
+        {
+            Success = true
+        };
+    }
 }

@@ -11,13 +11,8 @@ public class WorkoutUserLikesRepository : RepositoryBase<WorkoutUserLikes>, IWor
     {
     }
     
-    public OperationSingleResult<WorkoutUserLikes> CreateWorkoutUserLike(WorkoutUserLikes workoutUserLike, bool trackChanges)
+    public void CreateWorkoutUserLike(WorkoutUserLikes workoutUserLike, bool trackChanges)
     {
         Create(workoutUserLike);
-        return new OperationSingleResult<WorkoutUserLikes>
-        {
-            Success = true,
-            Item = workoutUserLike
-        };
     }
 }

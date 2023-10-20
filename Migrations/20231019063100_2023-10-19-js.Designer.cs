@@ -3,6 +3,7 @@ using System;
 using EXOPEK_Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EXOPEK_Backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20231019063100_2023-10-19-js")]
+    partial class _20231019js
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,31 +114,6 @@ namespace EXOPEK_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Plans");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.PlanUserStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("CurrentPhase")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("PlanId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlanId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PlanUserStatus");
                 });
 
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.PlanWorkout", b =>
@@ -433,15 +411,15 @@ namespace EXOPEK_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "424f26d9-c65a-462f-a2ca-4eaf9d69e415",
-                            ConcurrencyStamp = "261dfded-9e6c-4aa2-907b-4cf3cf7c9036",
+                            Id = "3cacdbdb-fd69-46fa-9683-69be99589487",
+                            ConcurrencyStamp = "9db714ab-7a8f-4d0b-9439-7f9a005d2235",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b0972fb5-37b9-45e7-8fa6-8bbc17f2db71",
-                            ConcurrencyStamp = "61a5c606-5d67-4b94-94b4-81ef2c5bf900",
+                            Id = "3f721173-9dfa-4264-b1db-8c3326f01e7b",
+                            ConcurrencyStamp = "59d84c1e-5b48-46ec-8ac0-44e723fcf816",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -558,25 +536,6 @@ namespace EXOPEK_Backend.Migrations
                     b.HasOne("EXOPEK_Backend.Entities.Models.Workout", null)
                         .WithMany("Images")
                         .HasForeignKey("WorkoutId");
-                });
-
-            modelBuilder.Entity("EXOPEK_Backend.Entities.Models.PlanUserStatus", b =>
-                {
-                    b.HasOne("EXOPEK_Backend.Entities.Models.Plan", "Plan")
-                        .WithMany("PlanUserStatus")
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EXOPEK_Backend.Entities.Models.User", "User")
-                        .WithMany("PlanUserStatus")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Plan");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.PlanWorkout", b =>
@@ -732,15 +691,11 @@ namespace EXOPEK_Backend.Migrations
 
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.Plan", b =>
                 {
-                    b.Navigation("PlanUserStatus");
-
                     b.Navigation("PlanWorkouts");
                 });
 
             modelBuilder.Entity("EXOPEK_Backend.Entities.Models.User", b =>
                 {
-                    b.Navigation("PlanUserStatus");
-
                     b.Navigation("WorkoutUserComments");
 
                     b.Navigation("WorkoutUserCompletes");

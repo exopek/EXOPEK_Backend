@@ -71,4 +71,18 @@ public class WorkoutController : ControllerBase
 
         return Ok(workoutUserCompletesDto);
     }
+
+    [HttpPost("like")]
+    public async Task<IActionResult> CreateWorkoutUserLikes(
+        [FromBody] WorkoutLikeRequest request)
+    {
+        var workoutUserLikes = await _useCaseManager.Workout.CreateWorkoutUserLikesAsync(request);
+        
+        if (!workoutUserLikes.Success)
+        {
+            return BadRequest(workoutUserLikes.Errors);
+        }
+
+        return Ok();
+    }
 }

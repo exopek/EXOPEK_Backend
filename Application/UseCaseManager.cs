@@ -15,6 +15,7 @@ class UseCaseManager : IUseCaseManager
 
     private Lazy<IWorkoutUseCase> _workoutUseCase;
     private Lazy<IUserUseCase> _userUseCase;
+    private Lazy<IPlanUseCase> _planUseCase;
     public UseCaseManager(
         IRepositoryManager repositoryManager,
         ILoggerManager logger,
@@ -27,8 +28,12 @@ class UseCaseManager : IUseCaseManager
             () => new WorkoutUseCase(repositoryManager, userManager));
         _userUseCase = new Lazy<IUserUseCase>(
             () => new UserUseCase(logger, userManager, mapper, configuration));
+        _planUseCase = new Lazy<IPlanUseCase>(
+            () => new PlanUseCase(repositoryManager));
     }
     
     public IWorkoutUseCase Workout => _workoutUseCase.Value;
     public IUserUseCase User => _userUseCase.Value;
+    
+    public IPlanUseCase Plan => _planUseCase.Value;
 }

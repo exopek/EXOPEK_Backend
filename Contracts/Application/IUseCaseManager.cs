@@ -5,4 +5,6 @@ public interface IUseCaseManager
     IWorkoutUseCase Workout { get; }
     
     IUserUseCase User { get; }
+    
+    IPlanUseCase Plan { get; }
 }

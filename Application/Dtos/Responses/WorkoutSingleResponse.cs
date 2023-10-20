@@ -3,7 +3,7 @@ namespace EXOPEK_Backend.Application.Dtos.Responses;
 public class WorkoutSingleResponse
 {
     public string Id { get; set; }
-    
+
     public string Name { get; set; }
     
     public string Description { get; set; }
@@ -30,6 +30,7 @@ public class WorkoutSingleResponse
     public int Likes { get; set; }
     
     public int Comments { get; set; }
+    public bool IsLiked { get; set; }
     
     public ICollection<WorkoutUserCommentsResponse> WorkoutUserComments { get; set; } = new List<WorkoutUserCommentsResponse>();
     
