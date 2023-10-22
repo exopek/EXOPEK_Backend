@@ -24,8 +24,8 @@ public class MappingProfile : Profile
                 dest.Workouts, opt =>
                 opt.MapFrom(src => src.PlanWorkouts))
             .ForMember(dest =>  
-                dest.PlanStatus, opt =>
-                opt.MapFrom(src => src.PlanUserStatus));
+                dest.CurrentPhase, opt =>
+                opt.MapFrom(src => src.PlanUserStatus.FirstOrDefault().CurrentPhase));
         CreateMap<Workout, WorkoutSingleResponse>()
             /*.ForMember(dest => 
                 dest.IsLiked, opt => 

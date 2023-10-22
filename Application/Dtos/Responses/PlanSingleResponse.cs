@@ -25,5 +25,5 @@ public class PlanSingleResponse
     public string Hint { get; set; } = "Ich bin das SingleDto";
     public ICollection<WorkoutsResponse> Workouts { get; set; } = new List<WorkoutsResponse>();
     
-    public ICollection<PlanUserStatusResponse> PlanStatus { get; set; } = new List<PlanUserStatusResponse>();
+    public int CurrentPhase { get; set; }
 }

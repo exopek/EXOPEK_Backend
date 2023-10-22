@@ -19,5 +19,7 @@ public class WorkoutsResponse
     public double Duration { get; set; }
     public PhaseType PhaseType { get; set; }
     
+    public bool IsCompleted { get; set; }
     
+    public int Order { get; set; }
 }
