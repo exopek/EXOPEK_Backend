@@ -23,9 +23,12 @@ public class MappingProfile : Profile
             .ForMember(dest =>
                 dest.Workouts, opt =>
                 opt.MapFrom(src => src.PlanWorkouts))
-            .ForMember(dest =>  
+            .ForMember(dest =>
                 dest.CurrentPhase, opt =>
-                opt.MapFrom(src => src.PlanUserStatus.FirstOrDefault().CurrentPhase));
+                opt.MapFrom(src => src.PlanUserStatus.FirstOrDefault().CurrentPhase))
+            .ForMember(dest =>
+                dest.WorkoutIds, opt =>
+                opt.MapFrom(src => src.PlanUserStatus.FirstOrDefault().WorkoutIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)));
         CreateMap<Workout, WorkoutSingleResponse>()
             /*.ForMember(dest => 
                 dest.IsLiked, opt => 

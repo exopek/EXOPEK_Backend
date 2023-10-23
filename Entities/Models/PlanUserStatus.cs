@@ -10,4 +10,6 @@ public class PlanUserStatus
     public User User { get; set; }
     
     public PhaseType CurrentPhase { get; set; }
+    
+    public string WorkoutIds { get; set; }
 }

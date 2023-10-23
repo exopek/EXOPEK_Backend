@@ -26,4 +26,6 @@ public class PlanSingleResponse
     public ICollection<WorkoutsResponse> Workouts { get; set; } = new List<WorkoutsResponse>();
     
     public int CurrentPhase { get; set; }
+    
+    public ICollection<string> WorkoutIds { get; set; } = new List<string>();
 }

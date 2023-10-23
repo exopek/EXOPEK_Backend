@@ -15,6 +15,4 @@ public class PlanWorkout
     public PhaseType PhaseType { get; set; }
     
     public int Order { get; set; }
-    
-    public bool IsCompleted { get; set; }
 }
