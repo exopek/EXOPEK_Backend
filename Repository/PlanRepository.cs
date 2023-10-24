@@ -21,10 +21,14 @@ public class PlanRepository : RepositoryBase<Plan>, IPlanRepository
             .Include(p => p.PlanWorkouts)
             .ThenInclude(pw => pw.Workout);
 
+        // Wenn noch kein PlanStatus existiert, dann einfach den Plan zurückgeben
         if (userId.HasValue)
         {
             var query1 = FilterPlanUserStatus(query, userId.Value);
-            return await query1.SingleOrDefaultAsync();
+            if (await query1.AnyAsync())
+            {
+                return await query1.SingleOrDefaultAsync();
+            }
         }
 
         return await query.SingleOrDefaultAsync();
