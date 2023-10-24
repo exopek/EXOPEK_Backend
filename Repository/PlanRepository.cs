@@ -15,24 +15,24 @@ public class PlanRepository : RepositoryBase<Plan>, IPlanRepository
     public async Task<IEnumerable<Plan>> GetAllPlansAsync(bool trackChanges) =>
         await FindAll(trackChanges).OrderBy(p => p.Name).ToListAsync();
 
-    public async Task<Plan> GetPlanAsync(Guid id, Guid? planStatusId, bool trackChanges)
+    public async Task<Plan> GetPlanAsync(Guid id, Guid? userId, bool trackChanges)
     {
         var query = FindByCondition(c => c.Id.Equals(id), trackChanges)
             .Include(p => p.PlanWorkouts)
             .ThenInclude(pw => pw.Workout);
 
-        if (planStatusId.HasValue)
+        if (userId.HasValue)
         {
-            var query1 = FilterPlanUserStatus(query, planStatusId.Value);
+            var query1 = FilterPlanUserStatus(query, userId.Value);
             return await query1.SingleOrDefaultAsync();
         }
 
         return await query.SingleOrDefaultAsync();
     }
-    private IQueryable<Plan> FilterPlanUserStatus(IQueryable<Plan> query, Guid planStatusId)
+    private IQueryable<Plan> FilterPlanUserStatus(IQueryable<Plan> query, Guid userId)
     {
         return query
             .Include(pu => pu.PlanUserStatus)
-            .Where(pu => pu.PlanUserStatus.Any(pus => pus.Id.Equals(planStatusId)));
+            .Where(pu => pu.PlanUserStatus.Any(pus => pus.User.Id.Equals(userId.ToString())));
     } 
 }

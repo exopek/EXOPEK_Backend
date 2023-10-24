@@ -39,9 +39,9 @@ public class PlanController : ControllerBase
     
     [HttpGet("byId")]
     public async Task<IActionResult> GetPlan(
-        [FromQuery] Guid id, Guid? planStatusId)
+        [FromQuery] Guid id, Guid userId)
     {
-        var plan = await _useCaseManager.Plan.GetPlanAsync(id, planStatusId);
+        var plan = await _useCaseManager.Plan.GetPlanAsync(id, userId);
         
         if (!plan.Success)
         {
