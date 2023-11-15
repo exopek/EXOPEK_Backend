@@ -1,13 +1,17 @@
 namespace EXOPEK_Backend.Entities;
 
 
-    public enum DifficultyType {
+    public enum DifficultyType 
+    {
+        None = 0,
         Beginner,
         Intermediate,
         Advanced
     }
 
-    public enum CategoryType {
+    public enum CategoryType 
+    {
+        None = 0,
         FullBody,
         UpperBody,
         LowerBody,
@@ -15,13 +19,15 @@ namespace EXOPEK_Backend.Entities;
         Cardio
     }
 
-    public enum StageType {
+    public enum StageType 
+    {
         WarmUp,
         Main,
         Cooldown
     }
     public enum TargetType
     {
+        None = 0,
         Strength,
         Endurance,
         Mobility,
@@ -47,4 +53,26 @@ namespace EXOPEK_Backend.Entities;
         Phase8,
         Phase9,
         Phase10,
+    }
+    
+    public enum StatusType
+    {
+        None = 0,
+        Active,
+        Inactive,
+        Deleted,
+        Completed,
+        Pending,
+        Rejected,
+        Approved,
+        Blocked,
+        Unblocked,
+        Verified,
+        Unverified,
+        Locked,
+        Unlocked,
+        Expired,
+        Unexpired,
+        PendingVerification,
+        PendingApproval,
     }

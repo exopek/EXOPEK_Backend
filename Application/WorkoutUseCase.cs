@@ -20,15 +20,6 @@ public class WorkoutUseCase : IWorkoutUseCase
     public async Task<OperationListResult<Workout>> GetWorkoutsAsync()
     {
         var workouts = await _repository.Workout.GetAllWorkoutsAsync(trackChanges: false);
-        
-        if (!workouts.Any())
-        {
-            return new OperationListResult<Workout>
-            {
-                Success = false,
-                Errors = new List<string> {"No workouts found"}
-            };
-        }
 
         return new OperationListResult<Workout>
         {
@@ -102,12 +93,23 @@ public class WorkoutUseCase : IWorkoutUseCase
     {
         var User = await _userManager.FindByIdAsync(request.UserId.ToString());
         
+        var Workout = await _repository.Workout.GetWorkoutAsync(request.WorkoutId, trackChanges: true);
+        
         if (User.Equals(null))
         {
             return new OperationSingleResult<bool>
             {
                 Success = false,
                 Errors = new List<string> {"User not found"}
+            };
+        }
+        
+        if (Workout.Equals(null))
+        {
+            return new OperationSingleResult<bool>
+            {
+                Success = false,
+                Errors = new List<string> {"Workout not found"}
             };
         }
         
@@ -120,9 +122,133 @@ public class WorkoutUseCase : IWorkoutUseCase
         };
         
         _repository.WorkoutUserLikes.CreateWorkoutUserLike(workoutUserLikes, trackChanges: false);
+        
+        if (!workoutUserLikes.Id.Equals(Guid.Empty))
+        {
+            // Update Workout Likes
+            Workout.Likes += 1;
+        }
 
         await _repository.SaveAsync();
 
+        return new OperationSingleResult<bool>
+        {
+            Success = true
+        };
+    }
+
+    public async Task<OperationSingleResult<WorkoutUserComments>> CreateWorkoutUserCommentAsync(WorkoutCommentRequest request)
+    {
+        var User = await _userManager.FindByIdAsync(request.UserId.ToString());
+        
+        if (request.WorkoutId.Equals(Guid.Empty))
+        {
+            return new OperationSingleResult<WorkoutUserComments>
+            {
+                Success = false,
+                Errors = new List<string> {"WorkoutId is empty"}
+            };
+        }
+        
+        var Workout = await _repository.Workout.GetWorkoutAsync(request.WorkoutId, trackChanges: true);
+        
+        if (User.Equals(null))
+        {
+            return new OperationSingleResult<WorkoutUserComments>
+            {
+                Success = false,
+                Errors = new List<string> {"User not found"}
+            };
+        }
+        
+        if (Workout.Equals(null))
+        {
+            return new OperationSingleResult<WorkoutUserComments>
+            {
+                Success = false,
+                Errors = new List<string> {"Workout not found"}
+            };
+        }
+
+        if (String.IsNullOrEmpty(request.Comment))
+        {
+            return new OperationSingleResult<WorkoutUserComments>
+            {
+                Success = false,
+                Errors = new List<string> { "Comment is empty" }
+            };
+        }
+        
+        var workoutUserComment = new WorkoutUserComments
+        {
+            WorkoutId = request.WorkoutId,
+            CreatedAt = DateTime.UtcNow,
+            User = User,
+            Comment = request.Comment
+        };
+        
+        _repository.WorkoutUserComment.CreateWorkoutUserCommentAsync(workoutUserComment, trackChanges: false);
+        
+        if (!workoutUserComment.Id.Equals(Guid.Empty))
+        {
+            // Update Workout Likes
+            Workout.Comments += 1;
+        }
+
+        await _repository.SaveAsync();
+
+        return new OperationSingleResult<WorkoutUserComments>
+        {
+            Success = true,
+            Item = workoutUserComment
+        };
+    }
+
+    public async Task<OperationSingleResult<bool>> DeleteWorkoutUserComment(Guid id)
+    {
+        var workoutUserComment = await _repository.WorkoutUserComment.GetWorkoutUserCommentAsync(id, trackChanges: false);
+    
+        _repository.WorkoutUserComment.DeleteWorkoutUserComment(workoutUserComment, false);
+        
+        await _repository.SaveAsync();
+
+        return new OperationSingleResult<bool>
+        {
+            Success = true
+        };
+
+    }
+
+    public async Task<OperationListResult<WorkoutUserComments>> GetAllWorkoutUserCommentsByWorkoutIdAsync(Guid id)
+    {
+        var comments = await _repository.WorkoutUserComment.GetAllWorkoutUserCommentsByWorkoutIdAsync(id, false);
+
+        return new OperationListResult<WorkoutUserComments>
+        {
+            Items = comments,
+            Success = true
+        };
+    }
+
+    public async Task<OperationListResult<WorkoutUserLikes>> GetAllWorkoutUserLikesByUserIdAsync(Guid id)
+    {
+        var likes = await _repository.WorkoutUserLikes.GetAllWorkoutUserLikesByUserIdAsync(id, false);
+        
+        return new OperationListResult<WorkoutUserLikes>
+        {
+            Items = likes,
+            Success = true
+        };
+    }
+
+    public async Task<OperationSingleResult<bool>> DeleteWorkoutUserLike(Guid id)
+    {
+        var like = await _repository.WorkoutUserLikes.GetWorkoutUserLikeAsync(id, false);
+        
+        _repository.WorkoutUserLikes.DeleteWorkoutUserLike(like, false);
+        
+        await _repository.SaveAsync();
+        
         return new OperationSingleResult<bool>
         {
             Success = true

@@ -40,7 +40,7 @@ public class WorkoutController : ControllerBase
         return Ok(workoutsDto);
     }
     
-    [HttpGet("byId")]
+    [HttpGet("byId")] // ToDo: Refactoring
     public async Task<IActionResult> GetWorkout(
         [FromQuery] Guid id)
     {
@@ -56,7 +56,7 @@ public class WorkoutController : ControllerBase
         return Ok(workoutDto);
     }
     
-    [HttpPost("complete")]
+    [HttpPost("completes")]
     public async Task<IActionResult> CreateWorkoutUserCompletes(
         [FromBody] WorkoutCompleteRequest request)
     {
@@ -72,7 +72,7 @@ public class WorkoutController : ControllerBase
         return Ok(workoutUserCompletesDto);
     }
 
-    [HttpPost("like")]
+    [HttpPost("likes")]
     public async Task<IActionResult> CreateWorkoutUserLikes(
         [FromBody] WorkoutLikeRequest request)
     {
@@ -84,5 +84,61 @@ public class WorkoutController : ControllerBase
         }
 
         return Ok();
+    }
+    
+    [HttpDelete("likes/{id:guid}")]
+    public async Task<IActionResult> DeleteWorkoutUserLikes(
+        [FromRoute] Guid id)
+    {
+        await _useCaseManager.Workout.DeleteWorkoutUserLike(id);
+
+        return Ok();
+    }
+    
+    [HttpGet("likes")]
+    public async Task<IActionResult> GetAllWorkoutUserLikesByUserId(
+        [FromQuery] Guid id)
+    {
+        var workoutUserLikes = await _useCaseManager.Workout.GetAllWorkoutUserLikesByUserIdAsync(id);
+
+        var workoutUserLikesDto = _mapper.Map<IEnumerable<WorkoutUserLikesResponse>>(workoutUserLikes.Items);
+
+        return Ok(workoutUserLikesDto);
+    }
+    
+    [HttpPost("comments")]
+    public async Task<IActionResult> CreateWorkoutUserComments(
+        [FromBody] WorkoutCommentRequest request)
+    {
+        var workoutUserComments = await _useCaseManager.Workout.CreateWorkoutUserCommentAsync(request);
+        
+        if (!workoutUserComments.Success)
+        {
+            return BadRequest(workoutUserComments.Errors);
+        }
+        
+        var workoutUserCommentsDto = _mapper.Map<WorkoutUserCommentsResponse>(workoutUserComments.Item);
+
+        return Ok(workoutUserCommentsDto);
+    }
+    
+    [HttpDelete("comments/{id:guid}")]
+    public async Task<IActionResult> DeleteWorkoutUserComments(
+        [FromRoute] Guid id)
+    {
+        await _useCaseManager.Workout.DeleteWorkoutUserComment(id);
+
+        return Ok();
+    }
+    
+    [HttpGet("comments")]
+    public async Task<IActionResult> GetAllWorkoutUserCommentsByWorkoutId(
+        [FromQuery] Guid id)
+    {
+        var workoutUserComments = await _useCaseManager.Workout.GetAllWorkoutUserCommentsByWorkoutIdAsync(id);
+
+        var workoutUserCommentsDto = _mapper.Map<IEnumerable<WorkoutUserCommentsResponse>>(workoutUserComments.Items);
+
+        return Ok(workoutUserCommentsDto);
     }
 }

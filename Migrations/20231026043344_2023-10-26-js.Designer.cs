@@ -3,6 +3,7 @@ using System;
 using EXOPEK_Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EXOPEK_Backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20231026043344_2023-10-26-js")]
+    partial class _20231026js
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,10 +202,6 @@ namespace EXOPEK_Backend.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -454,15 +453,15 @@ namespace EXOPEK_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "24262287-86aa-41d0-ab54-ce32a1ffadc9",
-                            ConcurrencyStamp = "5de61442-abed-464e-ad4f-ec83683f5204",
+                            Id = "57e4aca9-6087-4c73-b322-bee70fdf4d61",
+                            ConcurrencyStamp = "7a2d9d9c-5974-4cb8-a11e-99d9b3e25747",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "61ec44ee-7add-4ad1-82e7-fc4d3e67197a",
-                            ConcurrencyStamp = "77b1b54e-6505-41af-ae08-4353de9bac5d",
+                            Id = "8ac1b9ba-1dc3-43af-8a68-1d4eebb3c80a",
+                            ConcurrencyStamp = "795747c1-d4e7-4ab7-88ec-40cf7fba9736",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

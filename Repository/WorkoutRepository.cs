@@ -1,4 +1,3 @@
-using System.Net.Mime;
 using EXOPEK_Backend.Contracts.Repository;
 using EXOPEK_Backend.Entities;
 using EXOPEK_Backend.Entities.Models;

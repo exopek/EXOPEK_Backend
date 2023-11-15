@@ -1,7 +1,6 @@
-
 namespace EXOPEK_Backend.Application.Dtos.Responses;
 
-public class PlanSingleResponse
+public class WorkoutLikeSingleResponse
 {
     public string Id { get; set; }
 
@@ -15,15 +14,24 @@ public class PlanSingleResponse
     
     public string Difficulty { get; set; }
     
-    public string Target { get; set; }
+    public string Category { get; set; }
     
     public string Hashtags { get; set; }
     
     public string VideoUrl { get; set; }
-
+    
+    public string MuscleImageUrl { get; set; }
+    
     public double Duration { get; set; }
     
     public string Hint { get; set; } = "Ich bin das SingleDto";
-    public ICollection<WorkoutsResponse> Workouts { get; set; } = new List<WorkoutsResponse>();
+    public ICollection<ExerciseResponse> Exercises { get; set; } = new List<ExerciseResponse>();
+    
+    public int Likes { get; set; }
+    
+    public int Comments { get; set; }
+    public bool IsLiked { get; set; }
+    
+    public ICollection<WorkoutUserCommentsResponse> WorkoutUserComments { get; set; } = new List<WorkoutUserCommentsResponse>();
 
 }

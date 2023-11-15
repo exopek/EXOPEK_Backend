@@ -1,7 +1,6 @@
 using AutoMapper;
 using EXOPEK_Backend.Application.Dtos.Requests;
 using EXOPEK_Backend.Contracts.Application;
-using EXOPEK_Backend.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXOPEK_Backend.Controllers;

@@ -8,6 +8,10 @@ public interface IRepositoryManager
     IWorkoutUserLikesRepository WorkoutUserLikes { get; }
     
     IPlanRepository Plan { get; }
+    
+    IPlanUserStatusRepository PlanUserStatus { get; }
+    
+    IWorkoutUserCommentRepository WorkoutUserComment { get; }
     void Save();
     Task SaveAsync();
 }

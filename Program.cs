@@ -1,9 +1,6 @@
 using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Extensions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Identity.Web;
 using NLog;
 
 var builder = WebApplication.CreateBuilder(args);

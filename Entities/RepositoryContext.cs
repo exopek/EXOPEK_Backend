@@ -1,6 +1,5 @@
 using EXOPEK_Backend.Entities.Configuration;
 using EXOPEK_Backend.Entities.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

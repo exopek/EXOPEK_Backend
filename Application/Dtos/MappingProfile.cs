@@ -15,24 +15,20 @@ public class MappingProfile : Profile
         CreateMap<WorkoutUserComments, WorkoutUserCommentsResponse>();
         CreateMap<WorkoutUserLikes, WorkoutUserLikesResponse>();
         CreateMap<WorkoutUserCompletes, WorkoutUserCompletesResponse>();
-        CreateMap<PlanUserStatus, PlanUserStatusResponse>();
-        CreateMap<Plan, PlanSingleResponse>()
-            /*.ForMember(dest => 
-                dest.IsLiked, opt => 
-                opt.MapFrom(src => src.WorkoutUserLikes.Any(wul => wul.User.Id == src.Id.ToString())))*/
-            .ForMember(dest =>
-                dest.Workouts, opt =>
-                opt.MapFrom(src => src.PlanWorkouts))
-            .ForMember(dest =>
-                dest.CurrentPhase, opt =>
-                opt.MapFrom(src => src.PlanUserStatus.FirstOrDefault().CurrentPhase))
+        CreateMap<User, UserResponse>();
+        CreateMap<PlanUserStatus, PlanUserStatusResponse>()
             .ForMember(dest =>
                 dest.WorkoutIds, opt =>
-                opt.MapFrom(src => src.PlanUserStatus.FirstOrDefault().WorkoutIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)));
+                opt.MapFrom(src => src.WorkoutIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)));
+        CreateMap<Plan, PlanSingleResponse>()
+            .ForMember(dest =>
+                dest.Workouts, opt =>
+                opt.MapFrom(src => src.PlanWorkouts));
         CreateMap<Workout, WorkoutSingleResponse>()
-            /*.ForMember(dest => 
-                dest.IsLiked, opt => 
-                opt.MapFrom(src => src.WorkoutUserLikes.Any(wul => wul.User.Id == src.Id.ToString())))*/
+            .ForMember(dest =>
+                dest.Exercises, opt =>
+                opt.MapFrom(src => src.WorkoutExercises));
+        CreateMap<Workout, WorkoutLikeSingleResponse>()
             .ForMember(dest =>
                 dest.Exercises, opt =>
                 opt.MapFrom(src => src.WorkoutExercises));

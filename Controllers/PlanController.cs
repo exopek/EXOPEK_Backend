@@ -1,4 +1,5 @@
 using AutoMapper;
+using EXOPEK_Backend.Application.Dtos.Requests;
 using EXOPEK_Backend.Application.Dtos.Responses;
 using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Contracts.Repository;
@@ -23,9 +24,9 @@ public class PlanController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAllPlans()
+    public async Task<IActionResult> GetAllPlans([FromQuery] PlansRequest request)
     {
-        var plans = await _useCaseManager.Plan.GetPlansAsync();
+        var plans = await _useCaseManager.Plan.GetPlansAsync(request);
         
         if (!plans.Success)
         {
@@ -37,19 +38,66 @@ public class PlanController : ControllerBase
         return Ok(plansDto);
     }
     
-    [HttpGet("byId")]
-    public async Task<IActionResult> GetPlan(
-        [FromQuery] Guid id, Guid userId)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetPlan([FromRoute] Guid id)
     {
-        var plan = await _useCaseManager.Plan.GetPlanAsync(id, userId);
+        var plan = await _useCaseManager.Plan.GetPlanAsync(id);
         
         if (!plan.Success)
         {
-            return NotFound(plan.Errors);
+            return BadRequest(plan.Errors);
         }
         
         var planDto = _mapper.Map<PlanSingleResponse>(plan.Item);
 
         return Ok(planDto);
+    }
+    
+    [HttpPut("status")]
+    public async Task<IActionResult> UpdatePlanStatus(
+        [FromBody] PlanStatusRequest request)
+    {
+        var planUserStatus = await _useCaseManager.Plan.UpdatePlanStatusAsync(request);
+        
+        if (!planUserStatus.Success)
+        {
+            return BadRequest(planUserStatus.Errors);
+        }
+        
+        var planUserStatusDto = _mapper.Map<PlanUserStatusResponse>(planUserStatus.Item);
+
+        return Ok(planUserStatusDto);
+    }
+    
+    [HttpPost("status")]
+    public async Task<IActionResult> CreatePlanUserStatus(
+        [FromBody] PlanStatusRequest request)
+    {
+        var planUserStatus = await _useCaseManager.Plan.CreatePlanUserStatusAsync(request);
+        
+        if (!planUserStatus.Success)
+        {
+            return BadRequest(planUserStatus.Errors);
+        }
+        
+        var planUserStatusDto = _mapper.Map<PlanUserStatusResponse>(planUserStatus.Item);
+
+        return Ok(planUserStatusDto);
+    }
+    
+    [HttpGet("status")]
+    public async Task<IActionResult> GetAllPlanUserStatuses(
+        [FromQuery] PlanStatusRequest request)
+    {
+        var planUserStatuses = await _useCaseManager.Plan.GetAllPlanUserStatusesAsync(request);
+        
+        if (!planUserStatuses.Success)
+        {
+            return BadRequest(planUserStatuses.Errors);
+        }
+        
+        var planUserStatusesDto = _mapper.Map<IEnumerable<PlanUserStatusResponse>>(planUserStatuses.Items);
+
+        return Ok(planUserStatusesDto);
     }
 }

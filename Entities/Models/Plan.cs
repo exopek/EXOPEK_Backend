@@ -23,4 +23,6 @@ public class Plan
     public ICollection<PlanWorkout> PlanWorkouts { get; set; } = new List<PlanWorkout>();
     
     public ICollection<PlanUserStatus> PlanUserStatus { get; set; } = new List<PlanUserStatus>();
+    
+    public string PhaseNames { get; set; }
 }

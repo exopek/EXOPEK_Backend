@@ -1,6 +1,5 @@
 using EXOPEK_Backend.Contracts.Repository;
 using EXOPEK_Backend.Entities;
-using EXOPEK_Backend.Entities.Application;
 using EXOPEK_Backend.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,20 +11,24 @@ public class WorkoutUserCommentRepository : RepositoryBase<WorkoutUserComments>,
     {
     }
     
-    public OperationSingleResult<WorkoutUserComments> CreateWorkoutUserCommentAsync(WorkoutUserComments workoutUserComment, bool trackChanges)
+    public void CreateWorkoutUserCommentAsync(WorkoutUserComments workoutUserComment, bool trackChanges)
     {
         Create(workoutUserComment);
-        return new OperationSingleResult<WorkoutUserComments>
-        {
-            Success = true,
-            Item = workoutUserComment
-        };
     }
     
-    public async Task<IEnumerable<WorkoutUserComments>> GetAllWorkoutUserCommentsByIdAsync(Guid id, bool trackChanges) =>
+    public async Task<IEnumerable<WorkoutUserComments>> GetAllWorkoutUserCommentsByWorkoutIdAsync(Guid id, bool trackChanges) =>
         await FindByCondition(c => c.WorkoutId.Equals(id), trackChanges)
             .OrderBy(c => c.CreatedAt)
+            .Include(c => c.User)
             .ToListAsync();
+
+    public void DeleteWorkoutUserComment(WorkoutUserComments workoutUserComment, bool trackChanges)
+    {
+        Delete(workoutUserComment);
+    }
     
-    
+    public async Task<WorkoutUserComments> GetWorkoutUserCommentAsync(Guid id, bool trackChanges) =>
+        await FindByCondition(c => c.Id.Equals(id), trackChanges)
+            .Include(c => c.User)
+            .SingleOrDefaultAsync();
 }

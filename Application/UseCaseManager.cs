@@ -29,7 +29,7 @@ class UseCaseManager : IUseCaseManager
         _userUseCase = new Lazy<IUserUseCase>(
             () => new UserUseCase(logger, userManager, mapper, configuration));
         _planUseCase = new Lazy<IPlanUseCase>(
-            () => new PlanUseCase(repositoryManager));
+            () => new PlanUseCase(repositoryManager, userManager));
     }
     
     public IWorkoutUseCase Workout => _workoutUseCase.Value;
