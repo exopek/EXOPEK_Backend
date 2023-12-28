@@ -22,7 +22,8 @@ public class PlanRepository : RepositoryBase<Plan>, IPlanRepository
     {
         var query = FindByCondition(c => c.Id.Equals(id), trackChanges)
             .Include(p => p.PlanWorkouts)
-            .ThenInclude(pw => pw.Workout);
+            .ThenInclude(pw => pw.Workout)
+            .Include(ps => ps.PlanUserStatus);
         
         // Wenn noch kein PlanStatus existiert, dann einfach den Plan zurückgeben
         /*if (userId.HasValue)

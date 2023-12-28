@@ -123,7 +123,7 @@ public class WorkoutController : ControllerBase
     }
     
     [HttpDelete("comments/{id:guid}")]
-    public async Task<IActionResult> DeleteWorkoutUserComments(
+    public async Task<IActionResult> DeleteWorkoutUserCommentsByCommentId(
         [FromRoute] Guid id)
     {
         await _useCaseManager.Workout.DeleteWorkoutUserComment(id);

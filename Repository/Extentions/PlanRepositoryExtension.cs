@@ -23,14 +23,23 @@ public static class PlanRepositoryExtension
 
         if (!String.IsNullOrEmpty(request.SearchTerm))
         {
-            var searchTermToLower = request.SearchTerm.ToLower();
-
-            result = result
-                .Where(x => x.Name.ToLower().StartsWith(searchTermToLower)
-                            || x.Description != null && x.Description.ToLower().Contains(searchTermToLower)
-                            || x.Hashtags != null && x.Hashtags.ToLower().Contains(searchTermToLower));
+            var searchTermList = request.SearchTerm.Split(",");
+            foreach (var searchTerm in searchTermList)
+            {
+                result = result.FilterPlansBySearchTerm(searchTerm);
+            }
         }
 
         return result;
+    }
+    
+    private static IQueryable<Plan> FilterPlansBySearchTerm(this IQueryable<Plan> plan, string searchTerm)
+    {
+        var searchTermToLower = searchTerm.ToLower();
+
+        return plan
+            .Where(x => x.Name.ToLower().StartsWith(searchTermToLower)
+                        || x.Description != null && x.Description.ToLower().Contains(searchTermToLower)
+                        || x.Hashtags != null && x.Hashtags.ToLower().Contains(searchTermToLower));
     }
 }
