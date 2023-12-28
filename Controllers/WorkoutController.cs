@@ -24,9 +24,10 @@ public class WorkoutController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllWorkouts()
+    public async Task<IActionResult> GetAllWorkouts(
+        [FromQuery] WorkoutsRequest request)
     {
-        var workouts = await _useCaseManager.Workout.GetWorkoutsAsync();
+        var workouts = await _useCaseManager.Workout.GetWorkoutsAsync(request);
         
         if (!workouts.Success)
         {

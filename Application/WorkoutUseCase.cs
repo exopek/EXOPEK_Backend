@@ -17,9 +17,9 @@ public class WorkoutUseCase : IWorkoutUseCase
         _repository = repository;
         _userManager = userManager;
     }
-    public async Task<OperationListResult<Workout>> GetWorkoutsAsync()
+    public async Task<OperationListResult<Workout>> GetWorkoutsAsync(WorkoutsRequest request)
     {
-        var workouts = await _repository.Workout.GetAllWorkoutsAsync(trackChanges: false);
+        var workouts = await _repository.Workout.GetAllWorkoutsAsync(request, trackChanges: false);
 
         return new OperationListResult<Workout>
         {
