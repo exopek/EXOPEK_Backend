@@ -12,6 +12,10 @@ public class PlanUserStatusResponse
     
     public DateTime CreatedAt { get; set; }
     
+    public Guid PlanId { get; set; }
+    
     public ICollection<string> WorkoutIds { get; set; } = new List<string>();
+    
+    public int ProgressPercentage { get; set; }
     
 }

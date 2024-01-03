@@ -9,4 +9,6 @@ public class PlansRequest
     public DifficultyType DifficultyType { get; set; } = DifficultyType.None;
 
     public string SearchTerm { get; set; } = "";
+    
+    public string PlanIds { get; set; } = "";
 }

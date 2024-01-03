@@ -100,4 +100,20 @@ public class PlanController : ControllerBase
 
         return Ok(planUserStatusesDto);
     }
+    
+    /*[HttpGet("status/{id:guid}")]
+    public async Task<IActionResult> GetPlanUserStatus(
+        [FromRoute] Guid id)
+    {
+        var planUserStatus = await _useCaseManager.Plan.GetPlanUserStatusAsync(id);
+        
+        if (!planUserStatus.Success)
+        {
+            return BadRequest(planUserStatus.Errors);
+        }
+        
+        var planUserStatusDto = _mapper.Map<PlanUserStatusResponse>(planUserStatus.Item);
+
+        return Ok(planUserStatusDto);
+    }*/
 }

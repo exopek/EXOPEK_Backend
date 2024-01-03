@@ -86,6 +86,11 @@ public class PlanUseCase : IPlanUseCase
         {
             var workoutIdsAsString = request.WorkoutsIds.Aggregate("", (current, workoutId) => current + (workoutId + ","));
             planUserStatus.WorkoutIds = workoutIdsAsString;
+            var plan = await _repository.Plan.GetPlanAsync(planUserStatus.PlanId, false);
+            var requestWorkoutIdsCount = (double)request.WorkoutsIds.Count;
+            var planWorkoutsCount = plan.PlanWorkouts.Count;
+            var progressPercentage =  requestWorkoutIdsCount / planWorkoutsCount;
+            planUserStatus.ProgressPercentage = progressPercentage > 1 ? 100 : (int) (progressPercentage * 100);
         }
         
         _repository.PlanUserStatus.UpdatePlanUserStatus(planUserStatus, true);

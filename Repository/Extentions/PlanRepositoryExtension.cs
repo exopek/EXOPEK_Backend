@@ -11,6 +11,12 @@ public static class PlanRepositoryExtension
     {
         var result = plan;
         
+        if (!String.IsNullOrEmpty(request.PlanIds))
+        {
+            var planIdsList = request.PlanIds.Split(",");
+            result = result.Where(x => planIdsList.Contains(x.Id.ToString()));
+        }
+        
         if (!request.TargetType.Equals(TargetType.None))
         {
             result = result.Where(x => x.Target == request.TargetType);

@@ -16,4 +16,6 @@ public class PlanUserStatus
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
     public StatusType Status { get; set; }
+    
+    public int ProgressPercentage { get; set; } = 0;
 }
