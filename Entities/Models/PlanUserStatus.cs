@@ -11,7 +11,7 @@ public class PlanUserStatus
     
     public PhaseType CurrentPhase { get; set; }
     
-    public string WorkoutIds { get; set; } = string.Empty;
+    public string PlanWorkoutIds { get; set; } = string.Empty;
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     

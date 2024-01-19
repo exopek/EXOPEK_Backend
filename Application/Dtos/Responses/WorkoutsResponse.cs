@@ -20,4 +20,6 @@ public class WorkoutsResponse
     public PhaseType PhaseType { get; set; }
 
     public int Order { get; set; }
+    
+    public Guid PlanWorkoutId { get; set; }
 }

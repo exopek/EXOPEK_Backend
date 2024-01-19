@@ -82,12 +82,13 @@ public class PlanUseCase : IPlanUseCase
         
         planUserStatus.CurrentPhase = request.CurrentPhase.Value;
 
-        if (request.WorkoutsIds.Count > 0)
+        // ToDo: PlanWorkoutIds verwenden
+        if (request.PlanWorkoutIds.Count > 0)
         {
-            var workoutIdsAsString = request.WorkoutsIds.Aggregate("", (current, workoutId) => current + (workoutId + ","));
-            planUserStatus.WorkoutIds = workoutIdsAsString;
+            var workoutIdsAsString = request.PlanWorkoutIds.Aggregate("", (current, workoutId) => current + (workoutId + ","));
+            planUserStatus.PlanWorkoutIds = workoutIdsAsString;
             var plan = await _repository.Plan.GetPlanAsync(planUserStatus.PlanId, false);
-            var requestWorkoutIdsCount = (double)request.WorkoutsIds.Count;
+            var requestWorkoutIdsCount = (double)request.PlanWorkoutIds.Count;
             var planWorkoutsCount = plan.PlanWorkouts.Count;
             var progressPercentage =  requestWorkoutIdsCount / planWorkoutsCount;
             planUserStatus.ProgressPercentage = progressPercentage > 1 ? 100 : (int) (progressPercentage * 100);

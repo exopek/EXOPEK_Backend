@@ -19,7 +19,7 @@ public class MappingProfile : Profile
         CreateMap<PlanUserStatus, PlanUserStatusResponse>()
             .ForMember(dest =>
                 dest.WorkoutIds, opt =>
-                opt.MapFrom(src => src.WorkoutIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)));
+                opt.MapFrom(src => src.PlanWorkoutIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)));
         CreateMap<Plan, PlanSingleResponse>()
             .ForMember(dest =>
                 dest.Workouts, opt =>
@@ -83,6 +83,7 @@ public class MappingProfile : Profile
             .ForMember(dest =>
                 dest.PreviewImageUrl , opt =>
                 opt.MapFrom(src => src.Workout.PreviewImageUrl))
+            .ForMember(dest => dest.PlanWorkoutId, opt => opt.MapFrom(src => src.Id))   
             ;
 
         CreateMap<UserRegisterRequest, User>();

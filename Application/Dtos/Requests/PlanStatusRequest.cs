@@ -12,5 +12,5 @@ public class PlanStatusRequest
     public StatusType? Status { get; set; }
     public PhaseType? CurrentPhase { get; set; }
     
-    public List<string> WorkoutsIds { get; set; } = new List<string>();
+    public List<string> PlanWorkoutIds { get; set; } = new List<string>();
 }
