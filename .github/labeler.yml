@@ -1,0 +1,8 @@
+ready for review:
+  - changed-files:
+      - any-glob-to-any-file: '**'
+
+ef db migration:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: 'EXOPEK_Backend/Migrations/*'
