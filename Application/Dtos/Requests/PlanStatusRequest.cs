@@ -5,6 +5,7 @@ namespace EXOPEK_Backend.Application.Dtos.Requests;
 public class PlanStatusRequest
 {
     public Guid? Id { get; set; }
+    // test
     
     public Guid? PlanId { get; set; }
     
