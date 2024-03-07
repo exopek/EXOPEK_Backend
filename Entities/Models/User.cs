@@ -8,7 +8,8 @@ public class User : IdentityUser
 
     public string LastName { get; set; }
 
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
+    
     public ICollection<WorkoutUserComments> WorkoutUserComments { get; set; }
 
     public ICollection<WorkoutUserLikes> WorkoutUserLikes { get; set; }

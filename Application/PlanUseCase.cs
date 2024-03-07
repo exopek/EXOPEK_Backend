@@ -12,11 +12,13 @@ public class PlanUseCase : IPlanUseCase
 {
     private readonly IRepositoryManager _repository;
     private readonly UserManager<User> _userManager;
+    private readonly HttpContext _httpContext;
 
-    public PlanUseCase(IRepositoryManager repository, UserManager<User> userManager)
+    public PlanUseCase(IRepositoryManager repository, UserManager<User> userManager, IHttpContextAccessor httpContext)
     {
         _repository = repository;
         _userManager = userManager;
+        _httpContext = httpContext.HttpContext;
     }
     
     public async Task<OperationListResult<Plan>> GetPlansAsync(PlansRequest request)
@@ -108,7 +110,19 @@ public class PlanUseCase : IPlanUseCase
     public async Task<OperationSingleResult<PlanUserStatus>> CreatePlanUserStatusAsync(PlanStatusRequest request)
     {
 
-        var user = _userManager.FindByIdAsync(request.UserId.ToString()).Result;
+        /*var user = _userManager.FindByIdAsync(request.UserId.ToString()).Result;*/
+
+        var userClaim = _httpContext.User;
+        var user = await _userManager.GetUserAsync(userClaim);
+        
+        if (user == null)
+        {
+            return new OperationSingleResult<PlanUserStatus>
+            {
+                Success = false,
+                Errors = new List<string> {"User not found"}
+            };
+        }
         
         var planUserStatus = new PlanUserStatus
         {
@@ -132,6 +146,12 @@ public class PlanUseCase : IPlanUseCase
 
     public async Task<OperationListResult<PlanUserStatus>> GetAllPlanUserStatusesAsync(PlanStatusRequest request)
     {
+        var userClaim = _httpContext.User;
+        var user = await _userManager.GetUserAsync(userClaim);
+        var userName = userClaim.Identity.Name;
+        var res2 = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name));
+        request.UserId = Guid.Parse(res2.Id);
         var planUserStatuses = await _repository.PlanUserStatus.GetAllPlanUserStatusesAsync(request, false);
         return new OperationListResult<PlanUserStatus>
         {

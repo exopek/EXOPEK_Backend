@@ -40,7 +40,6 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Authenticate([FromBody] UserAuthenticationRequest 
         user)
     {
-        
         var userResult = await _useCaseManager.User.ValidateUserAsync(user);
         if (!userResult.Success)
             return Unauthorized();
@@ -50,6 +49,15 @@ public class UserController : ControllerBase
             return Unauthorized();
         
         return Ok(new { Token = token.Item });
+    }
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var result = await _useCaseManager.User.LogoutAsync();
+        if (!result.Success)
+            return BadRequest(result.Errors);
+        return Ok();
     }
     
 }

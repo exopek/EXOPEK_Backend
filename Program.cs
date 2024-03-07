@@ -41,14 +41,14 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseHsts();
+    app.UseHttpsRedirection();
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.All
+    });
 }
 
 app.UseStaticFiles();
-app.UseHttpsRedirection();
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.All
-});
 app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
