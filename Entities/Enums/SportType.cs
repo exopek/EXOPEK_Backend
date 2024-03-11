@@ -1,0 +1,33 @@
+namespace EXOPEK_Backend.Entities.Enums;
+
+public enum SportType
+{
+    None = 0,
+    Running = 1,
+    Cycling = 2,
+    Swimming = 3,
+    Walking = 4,
+    Hiking = 5,
+    Yoga = 6,
+    Pilates = 7,
+    Gym = 8,
+    Crossfit = 9,
+    Football = 10,
+    Basketball = 11,
+    Volleyball = 12,
+    Tennis = 13,
+    TableTennis = 14,
+    Badminton = 15,
+    Fitness = 16,
+    Boxing = 17,
+    MartialArts = 18,
+    Dance = 19,
+    AmericanFootball = 20,
+    Baseball = 21,
+    Rugby = 22,
+    MuayThai = 23,
+    KickBoxing = 24,
+    Judo = 25,
+    Karate = 26,
+    Taekwondo = 27,
+}

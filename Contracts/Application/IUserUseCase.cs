@@ -12,4 +12,8 @@ public interface IUserUseCase
     Task<OperationSingleResult<string>> GenerateJwtTokenAsync();
     
     Task<OperationResult> LogoutAsync();
+    
+    Task<OperationResult> UpdateUserAsync(User user);
+    
+    Task<OperationSingleResult<User>> GetUserAsync();
 }

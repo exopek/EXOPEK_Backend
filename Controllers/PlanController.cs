@@ -54,6 +54,7 @@ public class PlanController : ControllerBase
         return Ok(planDto);
     }
     
+    [Authorize]
     [HttpPut("status")]
     public async Task<IActionResult> UpdatePlanStatus(
         [FromBody] PlanStatusRequest request)
@@ -70,6 +71,7 @@ public class PlanController : ControllerBase
         return Ok(planUserStatusDto);
     }
     
+    [Authorize]
     [HttpPost("status")]
     public async Task<IActionResult> CreatePlanUserStatus(
         [FromBody] PlanStatusRequest request)

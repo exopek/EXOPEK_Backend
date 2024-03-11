@@ -121,7 +121,9 @@ public class UserUseCase : IUserUseCase
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, _user.UserName)
+            new Claim(ClaimTypes.Name, _user.UserName),
+            new Claim("id", _user.Id.ToString()),
+            new Claim(ClaimTypes.Email, _user.Email),
         };
         var roles = await _userManager.GetRolesAsync(_user);
         foreach (var role in roles)
@@ -321,7 +323,42 @@ public class UserUseCase : IUserUseCase
         return Task.FromResult(new OperationResult { Success = true });
     }
 
-    
-    
-   
+    public async Task<OperationResult> UpdateUserAsync(User user)
+    {
+        var result = await _userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+        {
+            return new OperationResult
+            {
+                Success = false,
+                Errors = result.Errors.Select(x => x.Description).ToArray()
+            };
+        }
+        return new OperationResult
+        {
+            Success = true
+        };
+    }
+
+    public async Task<OperationSingleResult<User>> GetUserAsync()
+    {
+        var userClaim = _httpContext.User;
+        var userName = userClaim.Identity.Name;
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        if (res == null)
+        {
+            return new OperationSingleResult<User>
+            {
+                Success = false,
+                Errors = new List<string> {"User not found"}
+            };
+        }
+        
+        return new OperationSingleResult<User>
+        {
+            Item = res,
+            Success = true
+        };
+    }
 }

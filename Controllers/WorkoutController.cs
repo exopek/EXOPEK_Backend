@@ -3,6 +3,7 @@ using EXOPEK_Backend.Application.Dtos.Requests;
 using EXOPEK_Backend.Application.Dtos.Responses;
 using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Contracts.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXOPEK_Backend.Controllers;
@@ -57,6 +58,7 @@ public class WorkoutController : ControllerBase
         return Ok(workoutDto);
     }
     
+    [Authorize]
     [HttpPost("completes")]
     public async Task<IActionResult> CreateWorkoutUserCompletes(
         [FromBody] WorkoutCompleteRequest request)
@@ -73,6 +75,7 @@ public class WorkoutController : ControllerBase
         return Ok(workoutUserCompletesDto);
     }
 
+    [Authorize]
     [HttpPost("likes")]
     public async Task<IActionResult> CreateWorkoutUserLikes(
         [FromBody] WorkoutLikeRequest request)

@@ -109,11 +109,13 @@ public class PlanUseCase : IPlanUseCase
 
     public async Task<OperationSingleResult<PlanUserStatus>> CreatePlanUserStatusAsync(PlanStatusRequest request)
     {
-
-        /*var user = _userManager.FindByIdAsync(request.UserId.ToString()).Result;*/
-
         var userClaim = _httpContext.User;
-        var user = await _userManager.GetUserAsync(userClaim);
+        var userName = userClaim.Identity.Name;
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        request.UserId = Guid.Parse(res.Id);
+        
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         
         if (user == null)
         {
@@ -147,11 +149,10 @@ public class PlanUseCase : IPlanUseCase
     public async Task<OperationListResult<PlanUserStatus>> GetAllPlanUserStatusesAsync(PlanStatusRequest request)
     {
         var userClaim = _httpContext.User;
-        var user = await _userManager.GetUserAsync(userClaim);
         var userName = userClaim.Identity.Name;
-        var res2 = _userManager.Users
-            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name));
-        request.UserId = Guid.Parse(res2.Id);
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        request.UserId = Guid.Parse(res.Id);
         var planUserStatuses = await _repository.PlanUserStatus.GetAllPlanUserStatusesAsync(request, false);
         return new OperationListResult<PlanUserStatus>
         {

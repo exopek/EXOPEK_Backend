@@ -52,11 +52,12 @@ public class WorkoutUseCase : IWorkoutUseCase
     
     public async Task<OperationSingleResult<WorkoutUserCompletes>> CreateWorkoutUserCompletesAsync(WorkoutCompleteRequest request)
     {
-        // var User = await _userManager.FindByIdAsync(request.UserId.ToString());
-        
-        // User from httpConxtext
         var userClaim = _httpContext.User;
-        var user = await _userManager.GetUserAsync(userClaim);
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        var userId = Guid.Parse(res.Id);
+        
+        var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
         {
