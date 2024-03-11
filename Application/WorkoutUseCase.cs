@@ -12,10 +12,12 @@ public class WorkoutUseCase : IWorkoutUseCase
     
     private readonly IRepositoryManager _repository;
     private readonly UserManager<User> _userManager;
-    public WorkoutUseCase(IRepositoryManager repository, UserManager<User> userManager)
+    private readonly HttpContext _httpContext;
+    public WorkoutUseCase(IRepositoryManager repository, UserManager<User> userManager, IHttpContextAccessor httpContext)
     {
         _repository = repository;
         _userManager = userManager;
+        _httpContext = httpContext.HttpContext;
     }
     public async Task<OperationListResult<Workout>> GetWorkoutsAsync(WorkoutsRequest request)
     {
@@ -50,9 +52,14 @@ public class WorkoutUseCase : IWorkoutUseCase
     
     public async Task<OperationSingleResult<WorkoutUserCompletes>> CreateWorkoutUserCompletesAsync(WorkoutCompleteRequest request)
     {
-        var User = await _userManager.FindByIdAsync(request.UserId.ToString());
+        var userClaim = _httpContext.User;
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        var userId = Guid.Parse(res.Id);
         
-        if (User.Equals(null))
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        
+        if (user == null)
         {
             return new OperationSingleResult<WorkoutUserCompletes>
             {
@@ -65,7 +72,7 @@ public class WorkoutUseCase : IWorkoutUseCase
         {
             WorkoutId = request.WorkoutId,
             CreatedAt = DateTime.UtcNow,
-            User = User,
+            User = user,
             IsCompleted = true
         };
         

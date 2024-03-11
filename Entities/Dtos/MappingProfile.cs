@@ -87,6 +87,7 @@ public class MappingProfile : Profile
             ;
 
         CreateMap<UserRegisterRequest, User>();
+        CreateMap<UserUpdateDto, User>();
     }
 
 }

@@ -4,15 +4,10 @@ using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Contracts.Repository;
 using EXOPEK_Backend.Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 class UseCaseManager : IUseCaseManager
 {
-    
-    /*private readonly IRepositoryManager _repositoryManager;
-    private readonly IMapper _mapper;
-    private readonly ILoggerManager _logger;
-    private readonly UserManager<User> _userManager;*/
-
     private Lazy<IWorkoutUseCase> _workoutUseCase;
     private Lazy<IUserUseCase> _userUseCase;
     private Lazy<IPlanUseCase> _planUseCase;
@@ -21,15 +16,17 @@ class UseCaseManager : IUseCaseManager
         ILoggerManager logger,
         IMapper mapper,
         UserManager<User> userManager,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IOptions<JwtSettings> jwtSettings,
+        IHttpContextAccessor httpContextAccessor
+        )
     {
-        //_repositoryManager = repositoryManager;
         _workoutUseCase = new Lazy<IWorkoutUseCase>(
-            () => new WorkoutUseCase(repositoryManager, userManager));
+            () => new WorkoutUseCase(repositoryManager, userManager, httpContextAccessor));
         _userUseCase = new Lazy<IUserUseCase>(
-            () => new UserUseCase(logger, userManager, mapper, configuration));
+            () => new UserUseCase(logger, userManager, mapper, configuration, jwtSettings, httpContextAccessor));
         _planUseCase = new Lazy<IPlanUseCase>(
-            () => new PlanUseCase(repositoryManager, userManager));
+            () => new PlanUseCase(repositoryManager, userManager, httpContextAccessor));
     }
     
     public IWorkoutUseCase Workout => _workoutUseCase.Value;

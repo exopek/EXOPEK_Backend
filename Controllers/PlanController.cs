@@ -3,6 +3,7 @@ using EXOPEK_Backend.Application.Dtos.Requests;
 using EXOPEK_Backend.Application.Dtos.Responses;
 using EXOPEK_Backend.Contracts.Application;
 using EXOPEK_Backend.Contracts.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXOPEK_Backend.Controllers;
@@ -53,6 +54,7 @@ public class PlanController : ControllerBase
         return Ok(planDto);
     }
     
+    [Authorize]
     [HttpPut("status")]
     public async Task<IActionResult> UpdatePlanStatus(
         [FromBody] PlanStatusRequest request)
@@ -69,6 +71,7 @@ public class PlanController : ControllerBase
         return Ok(planUserStatusDto);
     }
     
+    [Authorize]
     [HttpPost("status")]
     public async Task<IActionResult> CreatePlanUserStatus(
         [FromBody] PlanStatusRequest request)
@@ -85,6 +88,7 @@ public class PlanController : ControllerBase
         return Ok(planUserStatusDto);
     }
     
+    [Authorize]
     [HttpGet("status")]
     public async Task<IActionResult> GetAllPlanUserStatuses(
         [FromQuery] PlanStatusRequest request)

@@ -1,6 +1,9 @@
 using AutoMapper;
 using EXOPEK_Backend.Application.Dtos.Requests;
+using EXOPEK_Backend.Application.Dtos.Responses;
 using EXOPEK_Backend.Contracts.Application;
+using EXOPEK_Backend.Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXOPEK_Backend.Controllers;
@@ -17,6 +20,17 @@ public class UserController : ControllerBase
     {
         _useCaseManager = useCaseManager;
         _mapper = mapper;
+    }
+    
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetUser()
+    {
+        var user = await _useCaseManager.User.GetUserAsync();
+        if (!user.Success)
+            return BadRequest(user.Errors);
+        var userDto = _mapper.Map<UserResponse>(user.Item);
+        return Ok(userDto);
     }
     
     [HttpPost("register")]
@@ -40,7 +54,6 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Authenticate([FromBody] UserAuthenticationRequest 
         user)
     {
-        
         var userResult = await _useCaseManager.User.ValidateUserAsync(user);
         if (!userResult.Success)
             return Unauthorized();
@@ -50,6 +63,26 @@ public class UserController : ControllerBase
             return Unauthorized();
         
         return Ok(new { Token = token.Item });
+    }
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var result = await _useCaseManager.User.LogoutAsync();
+        if (!result.Success)
+            return BadRequest(result.Errors);
+        return Ok();
+    }
+    
+    [HttpPut("update")]
+    public async Task<IActionResult> UpdateUser(
+        [FromBody] UserUpdateDto userUpdateDto)
+    {
+        var user = _mapper.Map<User>(userUpdateDto);
+        var result = await _useCaseManager.User.UpdateUserAsync(user);
+        if (!result.Success)
+            return BadRequest(result.Errors);
+        return Ok(result);
     }
     
 }

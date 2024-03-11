@@ -10,4 +10,10 @@ public interface IUserUseCase
     Task<IdentityResult> CreateUserAsync(UserRegisterRequest userForRegistration);
     Task<OperationSingleResult<User>> ValidateUserAsync(UserAuthenticationRequest userAuthenticationRequest);
     Task<OperationSingleResult<string>> GenerateJwtTokenAsync();
+    
+    Task<OperationResult> LogoutAsync();
+    
+    Task<OperationResult> UpdateUserAsync(User user);
+    
+    Task<OperationSingleResult<User>> GetUserAsync();
 }
