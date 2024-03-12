@@ -2,6 +2,8 @@ namespace EXOPEK_Backend.Application.Dtos.Requests;
 
 public class UserUpdateDto
 {
+    public Guid? Id { get; init; }
+    
     public string? FirstName { get; init; }
     
     public string? LastName { get; init; }

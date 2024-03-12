@@ -323,8 +323,30 @@ public class UserUseCase : IUserUseCase
         return Task.FromResult(new OperationResult { Success = true });
     }
 
-    public async Task<OperationResult> UpdateUserAsync(User user)
+    public async Task<OperationResult> UpdateUserAsync(User userDto)
     {
+        var user = await _userManager.FindByIdAsync(userDto.Id.ToString());
+        if (user == null)
+        {
+            return new OperationResult
+            {
+                Success = false,
+                Errors = new[] { "User not found" }
+            };
+        }
+        user.ImageUrl = userDto.ImageUrl;
+        user.UserName = userDto.UserName;
+        user.Email = userDto.Email;
+        user.PhoneNumber = userDto.PhoneNumber;
+        user.FirstName = userDto.FirstName;
+        user.LastName = userDto.LastName;
+        user.Age = userDto.Age;
+        user.Height = userDto.Height;
+        user.Weight = userDto.Weight;
+        user.PreviousTrainingFrequency = userDto.PreviousTrainingFrequency;
+        user.TrainingFrequency = userDto.TrainingFrequency;
+        user.SportType = userDto.SportType;
+        
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
