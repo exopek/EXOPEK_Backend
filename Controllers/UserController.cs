@@ -74,7 +74,9 @@ public class UserController : ControllerBase
         return Ok();
     }
     
-    [HttpPut("update")]
+
+    [HttpPut]
+    [Authorize]
     public async Task<IActionResult> UpdateUser(
         [FromBody] UserUpdateDto userUpdateDto)
     {
