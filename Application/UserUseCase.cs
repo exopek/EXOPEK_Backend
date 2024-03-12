@@ -241,11 +241,15 @@ public class UserUseCase : IUserUseCase
             {*/
                 var userHasValidPassword = await _userManager.CheckPasswordAsync(user, password);
 
+
                 if (!userHasValidPassword)
                     return new OperationSingleResult<UserRegistrationResult>
                     {
                         Errors = new[] { "Password is wrong" }
                     };
+            /*}*/
+
+            
             /*}*/
 
             var tokenResult = await GetUserLoginResultWithTokenAsync(user);

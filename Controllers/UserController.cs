@@ -74,6 +74,7 @@ public class UserController : ControllerBase
         return Ok();
     }
     
+
     [HttpPut]
     [Authorize]
     public async Task<IActionResult> UpdateUser(
