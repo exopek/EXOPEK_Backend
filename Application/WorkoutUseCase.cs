@@ -146,7 +146,12 @@ public class WorkoutUseCase : IWorkoutUseCase
 
     public async Task<OperationSingleResult<WorkoutUserComments>> CreateWorkoutUserCommentAsync(WorkoutCommentRequest request)
     {
-        var User = await _userManager.FindByIdAsync(request.UserId.ToString());
+        var userClaim = _httpContext.User;
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        var userId = Guid.Parse(res.Id);
+        
+        var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (request.WorkoutId.Equals(Guid.Empty))
         {
@@ -157,9 +162,9 @@ public class WorkoutUseCase : IWorkoutUseCase
             };
         }
         
-        var Workout = await _repository.Workout.GetWorkoutAsync(request.WorkoutId, trackChanges: true);
+        var workout = await _repository.Workout.GetWorkoutAsync(request.WorkoutId, trackChanges: true);
         
-        if (User.Equals(null))
+        if (user.Equals(null))
         {
             return new OperationSingleResult<WorkoutUserComments>
             {
@@ -168,7 +173,7 @@ public class WorkoutUseCase : IWorkoutUseCase
             };
         }
         
-        if (Workout.Equals(null))
+        if (workout.Equals(null))
         {
             return new OperationSingleResult<WorkoutUserComments>
             {
@@ -190,7 +195,7 @@ public class WorkoutUseCase : IWorkoutUseCase
         {
             WorkoutId = request.WorkoutId,
             CreatedAt = DateTime.UtcNow,
-            User = User,
+            User = user,
             Comment = request.Comment
         };
         
@@ -199,7 +204,7 @@ public class WorkoutUseCase : IWorkoutUseCase
         if (!workoutUserComment.Id.Equals(Guid.Empty))
         {
             // Update Workout Likes
-            Workout.Comments += 1;
+            workout.Comments += 1;
         }
 
         await _repository.SaveAsync();

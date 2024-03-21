@@ -110,6 +110,7 @@ public class WorkoutController : ControllerBase
         return Ok(workoutUserLikesDto);
     }
     
+    [Authorize]
     [HttpPost("comments")]
     public async Task<IActionResult> CreateWorkoutUserComments(
         [FromBody] WorkoutCommentRequest request)

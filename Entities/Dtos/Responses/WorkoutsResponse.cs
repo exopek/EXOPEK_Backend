@@ -22,4 +22,8 @@ public class WorkoutsResponse
     public int Order { get; set; }
     
     public Guid PlanWorkoutId { get; set; }
+    
+    public int Comments { get; set; }
+    
+    public int Likes { get; set; }
 }
