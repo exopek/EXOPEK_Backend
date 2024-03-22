@@ -31,5 +31,10 @@ public class WorkoutUserLikesRepository : RepositoryBase<WorkoutUserLikes>, IWor
             .OrderBy(c => c.CreatedAt)
             .Include(c => c.Workout)
             .ToListAsync();
+
+    public async Task<IEnumerable<WorkoutUserLikes>> GetAllWorkoutUserLikesByWorkoutAndUserIdAsync(Guid userId, Guid workoutId, bool trackChanges) =>
+        await FindByCondition(c => c.User.Id.Equals(userId.ToString()) && c.Workout.Id.Equals(workoutId), trackChanges)
+            .OrderBy(c => c.CreatedAt)
+            .ToListAsync();
     
 }

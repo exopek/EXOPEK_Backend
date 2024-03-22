@@ -96,27 +96,42 @@ public class WorkoutUseCase : IWorkoutUseCase
         };
     }
     
-    public async Task<OperationSingleResult<bool>> CreateWorkoutUserLikesAsync(WorkoutLikeRequest request)
+    public async Task<OperationSingleResult<WorkoutUserLikes>> CreateWorkoutUserLikesAsync(WorkoutLikeRequest request)
     {
-        var User = await _userManager.FindByIdAsync(request.UserId.ToString());
+        var userClaim = _httpContext.User;
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        var userId = Guid.Parse(res.Id);
         
-        var Workout = await _repository.Workout.GetWorkoutAsync(request.WorkoutId, trackChanges: true);
+        var user = await _userManager.FindByIdAsync(userId.ToString());
         
-        if (User.Equals(null))
+        var workout = await _repository.Workout.GetWorkoutAsync(request.WorkoutId, trackChanges: true);
+        
+        if (user.Equals(null))
         {
-            return new OperationSingleResult<bool>
+            return new OperationSingleResult<WorkoutUserLikes>
             {
                 Success = false,
                 Errors = new List<string> {"User not found"}
             };
         }
         
-        if (Workout.Equals(null))
+        if (workout.Equals(null))
         {
-            return new OperationSingleResult<bool>
+            return new OperationSingleResult<WorkoutUserLikes>
             {
                 Success = false,
                 Errors = new List<string> {"Workout not found"}
+            };
+        }
+
+        var existingWorkoutUserLike = await _repository.WorkoutUserLikes.GetAllWorkoutUserLikesByWorkoutAndUserIdAsync(userId, workout.Id, false);
+        
+        if (existingWorkoutUserLike.Any())
+        {
+            return new OperationSingleResult<WorkoutUserLikes>
+            {
+                Success = true
             };
         }
         
@@ -124,7 +139,7 @@ public class WorkoutUseCase : IWorkoutUseCase
         {
             WorkoutId = request.WorkoutId,
             CreatedAt = DateTime.UtcNow,
-            User = User,
+            User = user,
             IsLiked = true
         };
         
@@ -133,14 +148,26 @@ public class WorkoutUseCase : IWorkoutUseCase
         if (!workoutUserLikes.Id.Equals(Guid.Empty))
         {
             // Update Workout Likes
-            Workout.Likes += 1;
+            workout.Likes += 1;
         }
 
         await _repository.SaveAsync();
-
-        return new OperationSingleResult<bool>
+        
+        var currentWorkoutUserLike = await _repository.WorkoutUserLikes.GetAllWorkoutUserLikesByWorkoutAndUserIdAsync(userId, workout.Id, false);
+        
+        if (!currentWorkoutUserLike.Any())
         {
-            Success = true
+            return new OperationSingleResult<WorkoutUserLikes>
+            {
+                Success = false,
+                Errors = new List<string> {"WorkoutUserLikes not created"}
+            };
+        }
+
+        return new OperationSingleResult<WorkoutUserLikes>
+        {
+            Success = true,
+            Item = currentWorkoutUserLike.First()
         };
     }
 
@@ -242,9 +269,14 @@ public class WorkoutUseCase : IWorkoutUseCase
         };
     }
 
-    public async Task<OperationListResult<WorkoutUserLikes>> GetAllWorkoutUserLikesByUserIdAsync(Guid id)
+    public async Task<OperationListResult<WorkoutUserLikes>> GetAllWorkoutUserLikesAsync()
     {
-        var likes = await _repository.WorkoutUserLikes.GetAllWorkoutUserLikesByUserIdAsync(id, false);
+        var userClaim = _httpContext.User;
+        var res = _userManager.Users
+            .FirstOrDefault(y => y.UserName.ToLower().Equals(userClaim.Identity.Name.ToLower()));
+        var userId = Guid.Parse(res.Id);
+        
+        var likes = await _repository.WorkoutUserLikes.GetAllWorkoutUserLikesByUserIdAsync(userId, false);
         
         return new OperationListResult<WorkoutUserLikes>
         {
