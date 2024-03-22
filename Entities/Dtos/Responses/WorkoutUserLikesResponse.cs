@@ -10,6 +10,6 @@ public class WorkoutUserLikesResponse
     
     public string CreatedAt { get; set; }
     
-    public WorkoutLikeSingleResponse Workout { get; set; }
+    public string WorkoutId { get; set; }
     
 }

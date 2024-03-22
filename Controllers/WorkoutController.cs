@@ -86,11 +86,14 @@ public class WorkoutController : ControllerBase
         {
             return BadRequest(workoutUserLikes.Errors);
         }
+        
+        var workoutUserLikesDto = _mapper.Map<WorkoutUserLikesResponse>(workoutUserLikes.Item);
 
-        return Ok();
+        return Ok(workoutUserLikesDto);
     }
     
     [HttpDelete("likes/{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> DeleteWorkoutUserLikes(
         [FromRoute] Guid id)
     {
@@ -100,10 +103,11 @@ public class WorkoutController : ControllerBase
     }
     
     [HttpGet("likes")]
-    public async Task<IActionResult> GetAllWorkoutUserLikesByUserId(
-        [FromQuery] Guid id)
+    [Authorize]
+    public async Task<IActionResult> GetAllWorkoutUserLikes(
+        )
     {
-        var workoutUserLikes = await _useCaseManager.Workout.GetAllWorkoutUserLikesByUserIdAsync(id);
+        var workoutUserLikes = await _useCaseManager.Workout.GetAllWorkoutUserLikesAsync();
 
         var workoutUserLikesDto = _mapper.Map<IEnumerable<WorkoutUserLikesResponse>>(workoutUserLikes.Items);
 

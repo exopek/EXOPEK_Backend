@@ -11,4 +11,6 @@ public interface IWorkoutUserLikesRepository
     public Task<WorkoutUserLikes> GetWorkoutUserLikeAsync(Guid id, bool trackChanges);
     
     public Task<IEnumerable<WorkoutUserLikes>> GetAllWorkoutUserLikesByUserIdAsync(Guid id, bool trackChanges);
+    
+    public Task<IEnumerable<WorkoutUserLikes>> GetAllWorkoutUserLikesByWorkoutAndUserIdAsync(Guid userId, Guid workoutId, bool trackChanges);
 }
