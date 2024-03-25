@@ -27,6 +27,8 @@ public class Workout
     public int Likes { get; set; }
     
     public int Comments { get; set; }
+    
+    public bool IsWorkoutOfTheWeek { get; set; }
     public ICollection<WorkoutUserComments> WorkoutUserComments { get; set; } = new List<WorkoutUserComments>();
     
     public ICollection<WorkoutUserLikes> WorkoutUserLikes { get; set; } = new List<WorkoutUserLikes>();

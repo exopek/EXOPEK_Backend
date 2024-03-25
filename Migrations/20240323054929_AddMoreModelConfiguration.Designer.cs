@@ -3,6 +3,7 @@ using System;
 using EXOPEK_Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EXOPEK_Backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240323054929_AddMoreModelConfiguration")]
+    partial class AddMoreModelConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -333,11 +336,6 @@ namespace EXOPEK_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsWorkoutOfTheWeek")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
                     b.Property<int>("Likes")
                         .HasColumnType("integer");
 
@@ -514,13 +512,13 @@ namespace EXOPEK_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "216919dd-3a81-4c24-ae7b-f15cc9b2dd6c",
+                            Id = "0d7f67e9-90ee-40cc-9dce-89bd0cf06a95",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "88288dd1-b0a3-497b-b258-988fc5d064ea",
+                            Id = "41c9c3b1-e49e-4b66-b562-fa61cf5a6a16",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

@@ -26,4 +26,6 @@ public class WorkoutsResponse
     public int Comments { get; set; }
     
     public int Likes { get; set; }
+    
+    public bool IsWorkoutOfTheWeek { get; set; }
 }
