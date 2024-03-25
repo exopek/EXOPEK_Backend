@@ -3,6 +3,7 @@ using System;
 using EXOPEK_Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EXOPEK_Backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240323051934_AddModelConfiguration")]
+    partial class AddModelConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,11 +31,8 @@ namespace EXOPEK_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("None");
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -40,11 +40,8 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Difficulty")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("None");
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -91,11 +88,8 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Difficulty")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("None");
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("integer");
 
                     b.Property<double>("Duration")
                         .HasColumnType("double precision");
@@ -115,11 +109,8 @@ namespace EXOPEK_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Target")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("None");
+                    b.Property<int>("Target")
+                        .HasColumnType("integer");
 
                     b.Property<string>("VideoUrl")
                         .HasColumnType("text");
@@ -182,11 +173,8 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<string>("PhaseType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Phase1");
+                    b.Property<int>("PhaseType")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("PlanId")
                         .HasColumnType("uuid");
@@ -268,11 +256,8 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<string>("SportType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("None");
+                    b.Property<int?>("SportType")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("TrainingFrequency")
                         .HasColumnType("integer");
@@ -305,11 +290,8 @@ namespace EXOPEK_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("None");
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Comments")
                         .HasColumnType("integer");
@@ -320,11 +302,8 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Difficulty")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("None");
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("integer");
 
                     b.Property<double>("Duration")
                         .HasColumnType("double precision");
@@ -332,11 +311,6 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<string>("Hashtags")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsWorkoutOfTheWeek")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
 
                     b.Property<int>("Likes")
                         .HasColumnType("integer");
@@ -373,9 +347,7 @@ namespace EXOPEK_Backend.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int?>("Reps")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
+                        .HasColumnType("integer");
 
                     b.Property<int>("StageOrder")
                         .HasColumnType("integer");
@@ -383,11 +355,8 @@ namespace EXOPEK_Backend.Migrations
                     b.Property<int>("StageRound")
                         .HasColumnType("integer");
 
-                    b.Property<string>("StageType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Main");
+                    b.Property<int>("StageType")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("WorkoutId")
                         .HasColumnType("uuid");
@@ -514,13 +483,13 @@ namespace EXOPEK_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "216919dd-3a81-4c24-ae7b-f15cc9b2dd6c",
+                            Id = "2a99994b-1de1-43e2-b6d7-5ddbc653b062",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "88288dd1-b0a3-497b-b258-988fc5d064ea",
+                            Id = "2b0b5d4a-154a-4075-bad3-e28c1bf693dc",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

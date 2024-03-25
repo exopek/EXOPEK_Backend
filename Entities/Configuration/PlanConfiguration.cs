@@ -17,5 +17,19 @@ public class PlanConfiguration : IEntityTypeConfiguration<Plan>
         builder
             .HasMany(v => v.PlanUserStatus)
             .WithOne(wv => wv.Plan);
+        
+        builder
+            .Property(c => c.Difficulty)
+            .HasDefaultValue(DifficultyType.None)
+            .HasConversion<string>(
+                adt => adt.ToString(),
+                adt => (DifficultyType)Enum.Parse(typeof(DifficultyType), adt));
+
+        builder
+            .Property(c => c.Target)
+            .HasDefaultValue(TargetType.None)
+            .HasConversion<string>(
+                adt => adt.ToString(),
+                adt => (TargetType)Enum.Parse(typeof(TargetType), adt));
     }
 }

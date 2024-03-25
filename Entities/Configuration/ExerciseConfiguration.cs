@@ -14,6 +14,18 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
             .HasMany(v => v.WorkoutExercises)
             .WithOne(wv => wv.Exercise);
 
+        builder
+            .Property(c => c.Difficulty)
+            .HasDefaultValue(DifficultyType.None)
+            .HasConversion<string>(
+                adt => adt.ToString(),
+                adt => (DifficultyType)Enum.Parse(typeof(DifficultyType), adt));
 
+        builder
+            .Property(c => c.Category)
+            .HasDefaultValue(CategoryType.None)
+            .HasConversion<string>(
+                adt => adt.ToString(),
+                adt => (CategoryType)Enum.Parse(typeof(CategoryType), adt));
     }
 }

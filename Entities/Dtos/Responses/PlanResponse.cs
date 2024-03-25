@@ -17,4 +17,6 @@ public class PlanResponse
     public string Hashtags { get; set; }
 
     public double Duration { get; set; }
+    
+    public string VideoUrl { get; set; }
 }

@@ -21,7 +21,7 @@ public class User : IdentityUser
     
     public int? TrainingFrequency { get; set; }
     
-    public SportType? SportType { get; set; }
+    public SportType SportType { get; set; }
     
     public ICollection<WorkoutUserComments> WorkoutUserComments { get; set; }
 
