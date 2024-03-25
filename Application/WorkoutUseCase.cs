@@ -124,6 +124,16 @@ public class WorkoutUseCase : IWorkoutUseCase
                 Errors = new List<string> {"Workout not found"}
             };
         }
+
+        var existingWorkoutUserLike = await _repository.WorkoutUserLikes.GetAllWorkoutUserLikesByWorkoutAndUserIdAsync(userId, workout.Id, false);
+        
+        if (existingWorkoutUserLike.Any())
+        {
+            return new OperationSingleResult<WorkoutUserLikes>
+            {
+                Success = true
+            };
+        }
         
         var workoutUserLikes = new WorkoutUserLikes
         {
